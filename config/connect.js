@@ -1,16 +1,36 @@
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "03092004",
-  database:"moviebook"
-});
+// var connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "03092004",
+//   database:"moviebook"
+// });
 
-connection.connect(function(err) {
+// connection.connect(function(err) {
+//   if (err) throw err;
+//   console.log("Connected!");
+// });
+// module.exports=connection;
+
+var sql = require("mssql");
+
+var config = {
+  user: "sa",
+  password: "",
+  server: "localhost", // Tên máy chủ SQL Server
+  database: "QLSV", // Tên cơ sở dữ liệu
+  options: {
+    trustServerCertificate: true,
+    encrypt: false,
+  },
+};
+
+var connection = new sql.ConnectionPool(config);
+
+connection.connect(function (err) {
   if (err) throw err;
-  console.log("Connected!");
+  console.log("Connected to SQL Server!");
 });
-module.exports=connection;
 
-  
+module.exports = connection;
