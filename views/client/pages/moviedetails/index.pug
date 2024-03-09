@@ -1,0 +1,45 @@
+extends ../../layouts/default.pug
+block main
+   div(class="moviedetails")
+    div(class="container")
+        div(class="row")
+            div(class="col-xl-5 col-lg-5 image")
+                img(src="/images/aven.jpg",class="inner-image")
+            div(class="col-xl-7 col-lg-7 info")
+                table.content-table
+                    thead
+                        tr(style="text-align: center;") 
+                            th(colspan="2") Movie Deatils
+                    tbody
+                        tr
+                            td Phim
+                            td Avengers
+                        tr
+                            td Ngày phát hành
+                            td April 11, 2012
+                        tr
+                            td Đạo diễn
+                            td Kevin Feige
+                        tr
+                            td Thể loại
+                            td Scince
+                        tr
+                            td Ngôn ngữ
+                            td English
+                        tr
+                            td Trailer
+                            td
+                                a(data-toggle="modal", data-target="#tailer_modal9") View Trailer
+                div(class="time-book-ticket")
+                    h4 Show Book Ticket:
+                    br
+                    a(href="#") 21:00
+    div(class="container")
+        div(class="row")
+            div(class="col-xl-12 col-lg-12")
+                div(class="description")
+                    h4 Description
+                    p
+                        | Jeff Lang (Tobey Maguire), an OBGYN, and his wife Nealy (Elizabeth Banks), who owns a small shop, live in Seattle with their two-year-old son named Miles. Considering a second child, they decide to enlarge their small home and lay expensive new grass in their backyard. Worms in the grass attract raccoons, who destroy the grass, and Jeff goes to great lengths to get rid of the raccoons, mixing poison with a can of tuna. Their neighbor Lila (Laura Linney) tells Jeff that her cat Matthew is missing, and Jeff does not yet realize he may be responsible.
+
+          

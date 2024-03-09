@@ -1,0 +1,33 @@
+extends ../../layouts/default.pug
+block main
+    div(class="feedback")
+        div(class="container")
+            div(class="row justify-content-center")
+                .col-md-10
+                    .row.align-items-center
+                        .col-lg-7.mb-5.mb-lg-0
+                            h2(class="mb-5 ") Fill the form.
+                                br
+                                | It's easy.
+                            form(onsubmit="")
+                                .row
+                                .col-md-6.form-group
+                                    input.form-control(type="text", name="feedbackname", id="feedbackname", placeholder="First name")
+                                    div#nameerror
+                                .row
+                                .col-md-12.form-group
+                                    input.form-control(type="text", name="feedbackemail", id="feedbackemail", placeholder="Email")
+                                    div#emailerror
+                                .row
+                                .col-md-12.form-group
+                                    textarea.form-control(name="feedbackmassage", id="feedbackmassage", cols="30", rows="7", placeholder="Write your message")
+                                    div#massageerror
+                                    div#msg
+                                .col-lg-12
+                                    .form-group
+                                        button(type="button" class="btn btn-dark",style="height:40px")
+                                            font(style="color:white;") Send Massage
+
+                        .col-lg-4.ml-auto
+                            h3.mb-4 Let's talk about everything.
+                            p Do Let Us Carnow Your Thoughts and Suggestions on How We Can Survey You Better. Give us feedback on how you feel about our service.            
