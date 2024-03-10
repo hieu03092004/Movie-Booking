@@ -19,5 +19,3 @@ connection.connect(function (err) {
 });
 
 module.exports = connection;
-
-  
