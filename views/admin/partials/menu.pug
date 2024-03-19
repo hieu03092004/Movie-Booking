@@ -1,0 +1,8 @@
+.menu
+  each item in menu
+    .item(key=item.id)
+      span.title #{item.title}
+      each listItem in item.listItems
+        a.listItem(href=listItem.url, key=listItem.id)
+          img(src=listItem.icon, alt="")
+          span.listItemTitle #{listItem.title}

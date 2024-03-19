@@ -1,5 +1,43 @@
 extends ../../layouts/default.pug
+include ../../partials/chartBox.pug
+include ../../partials/barChartBox.pug
+include ../../partials/pieChartBox.pug
+include ../../partials/bigChartBox.pug
 block main
-    h2.ad Trang Chủ
+    .home
+        .box.box1
+            .topBox
+                h1 Top Deals
+                .list
+                    each user in topDealUsers
+                        .listItem(key=user.id)
+                            .user
+                                img(src=user.img, alt="")
+                                .userTexts
+                                    span.username=user.username
+                                    span.email=user.email
+                            span.amount= user.amount
 
+        .box.box2 
+            +ChartBox(chartBoxUser)
+        .box.box3
+            +ChartBox(chartBoxProduct)
+        .box.box4
+            //- div 4
+            +PieChartBox(pieChartBox)
+        .box.box5
+            +ChartBox(chartBoxConversion)
+        .box.box6
+            +ChartBox(chartBoxRevenue)
+        .box.box7
+            //- div div 7
+            +BigChartBox(bigChartBox)
+        .box.box8
+            //- div div 8
+            +BarChartBox(barChartBoxVisit)
+        .box.box9
+            //- div div 9
+            +BarChartBox(barChartBoxRevenue)
+    
+            
 

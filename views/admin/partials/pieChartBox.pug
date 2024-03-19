@@ -1,0 +1,60 @@
+mixin PieChartBox(props)
+  .pieChartBox
+    h1 Leads by Source
+    .chart
+      canvas#pieChart(width="99%")
+    .options
+      each item in props
+        .option(key=item.name)
+          .title
+            .dot(style={ "background-color": item.color })
+            span= item.name
+          span= item.value
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+
+    script.
+        const ctx = document.getElementById('pieChart');
+        let props = !{JSON.stringify(props)};
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+            labels: props.map(item => item.name),
+            datasets: [{
+                //- label: props.map(item => item.value),
+                data: props.map(item => item.value),
+                backgroundColor: props.map(item => item.color),
+            }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                borderWidth: 0,
+                //- borderAlign: 'inner',
+                cutout: 105,
+                responsive: true,
+                maintainAspectRatio: false,
+                //- scales: {
+                //-     y: {
+                //-         display: false,
+                //-         beginAtZero: true,
+                //-     },
+                //-     x: {
+                //-         display: false,
+                //-     }
+                //- },
+                //- layout: {
+                //-   padding: {
+                //-       left: 20,  // Thêm offset
+                //-       right: 20,
+                //-       top: 20,
+                //-       bottom: 20
+                //-   }
+                //- },
+                spacing: 10, // Thêm spacing
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
