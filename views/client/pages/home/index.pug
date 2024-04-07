@@ -8,39 +8,43 @@ block main
                 div(class="col-xl-12")
                     div(class="running_movies-title")
                             h2(class="inner-title") Running Movies
-                div(class="col-lg-3 col-md-3 col-sm-6")
-                    div(class="running_movies")
-                        img(src="/images/aven.jpg" class="inner-movie")
-                    div(class="movie-name")
-                        h2(class="inner-content") Avengers endgame
-                    div(class="movie-info")
-                        div(class="inner-name")
-                            span(class="inner-title") Thể loại:
-                            span(class="inner-content") Khoa học viễn tưởng
-                        div(class="inner-name")
-                            span(class="inner-title") Thời lượng:
-                            span(class="inner-content") 131 phút
-                        div(class="inner-name")
-                            span(class="inner-title") Khởi chiếu:
-                            span(class="inner-content") 3-10-2024
-                    div(class="inner-button")
-                        a.btn.btn-primary(href="/moviedetails") Book Now
+                each item in movies
+                    if(item.status_name =="coming")
+                        div(class="col-lg-3 col-md-3 col-sm-6")
+                            div(class="running_movies")
+                                img(src=item.images class="inner-movie")
+                            div(class="movie-name")
+                                h2(class="inner-content") #{item.movie_title}
+                            div(class="movie-info")
+                                div(class="inner-name")
+                                    span(class="inner-title") Thể loại:
+                                    span(class="inner-content") #{item.genre}
+                                div(class="inner-name")
+                                    span(class="inner-title") Thời lượng:
+                                    span(class="inner-content") #{item. movie_duration}
+                                div(class="inner-name")
+                                    span(class="inner-title") Khởi chiếu:
+                                    span(class="inner-content") #{item.release_date}
+                            div(class="inner-button")
+                                a.btn.btn-primary(href=`/movies/${item.movie_id}`) Book Now
 
         .container
             .row
                 div(class="col-xl-12")
                     div(class="running_movies-title")
                             h2(class="inner-title")  Upcomming movies
-                .image-box
-                    .col-lg-2.col-md-3.col-sm-6
-                        .card(style="width: 12rem;")
-                            img(src="/images/theatre_2.jpg", class="inner-image")
-                            .card-body
-                                div(class="movie-name")
-                                    h2(class="inner-content") Rampage
-                                div(class="movie-desc")
-                                    span(class="inner-title") Đạo diễn:
-                                    span(class="inner-content") Brad Peyton
+                each item in movies
+                    if(item.status_name=="upcoming")
+                        .image-box
+                            .col-lg-2.col-md-3.col-sm-6
+                                .card(style="width: 12rem;")
+                                    img(src=item.images, class="inner-image")
+                                    .card-body
+                                        div(class="movie-name")
+                                            h2(class="inner-content") #{item.movie_title}
+                                        div(class="movie-desc")
+                                            span(class="inner-title") Đạo diễn:
+                                            span(class="inner-content") #{item.director}
                                
 
 
