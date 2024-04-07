@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/admin.css")
+
+    body
+        .main
+            include ../partials/navbar.pug
+            .container
+                .menuContainer
+                    include ../partials/menu.pug
+                .contentContainer
+                    block main
+            include ../partials/footer.pug

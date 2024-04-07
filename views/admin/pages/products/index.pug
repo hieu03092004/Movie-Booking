@@ -1,0 +1,22 @@
+extends ../../layouts/default.pug
+include ../../partials/dataTable.pug
+include ../../partials/Add.pug
+
+block main
+    .products
+        .info
+            h1 Products
+            button(onclick="handleOpen(true)") Add New Products
+        +DataTable(productColumns, ProductRows)
+        +Add(productColumns, slug)
+
+        script.
+            let slug = !{JSON.stringify(slug)};
+            const handleOpen = (value) => {
+                openAddButton = value;
+                if (value) {
+                    document.querySelector('.add').style.display = 'flex';
+                } else {
+                    document.querySelector('.add').style.display = 'none';
+                }
+            };

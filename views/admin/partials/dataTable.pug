@@ -1,0 +1,62 @@
+mixin DataTable(columns, rows)
+  .dataTable
+    #myGrid.ag-theme-quartz-dark(style="height: 72vh; width: 100%")
+      script(src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.1.1/dist/ag-grid-community.min.js")
+
+      script.
+        function handleDelete(id) {
+            console.log(`Xóa ${slug} với id: ${id}`);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          let gridApi;
+          let rows = !{JSON.stringify(rows)}
+          let columns = !{JSON.stringify(columns)}
+
+          const gridOptions = {
+            rowData: rows,
+            columnDefs: columns.map(column => {
+              if (column.field === 'img') {
+                return {
+                  ...column,
+                  cellRenderer: params => `<img src="${params.value || '/images/admin_img/noavatar.png'}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: flex; align-item:center;" />`
+                };
+              }
+              if (column.field === 'action') {
+                return {
+                  ...column,
+                  cellRenderer: params => 
+                    `<div class="action">
+                      <a href="/admin/${slug}/${params.data.id}">
+                        <img src="/images/admin_img/view.svg" alt="View" />
+                      </a>
+                      <div onclick="handleDelete(${params.data.id})">
+                        <img src="/images/admin_img/delete.svg" alt="Delete" />
+                      </div>
+                    </div>`
+                };
+              }
+              return column;
+            }),
+            defaultColDef: {
+              sortable: true,
+              flex: 1,
+              //- minWidth: 100,
+              filter: true,
+              resizable: true,
+            },
+            pagination: true,
+            paginationPageSize: 10,
+            paginationPageSizeSelector: [5, 10, 20],
+            rowSelection: 'multiple',
+            //- suppressRowClickSelection: true,
+            //- enableFilter: true,
+            //- quickFilter: true,
+            columnTypes: {
+              string: { filter: 'agTextColumnFilter' },
+              boolean: { filter: 'agBooleanColumnFilter' }
+            },
+          };
+
+            gridApi = agGrid.createGrid(document.querySelector('#myGrid'), gridOptions);
+        });

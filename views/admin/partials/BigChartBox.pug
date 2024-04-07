@@ -1,0 +1,77 @@
+mixin BigChartBox(props)
+  .bigChartBox
+    h1 Revenue Analytics
+    .chart
+      canvas#bigChart(width="99%")
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+
+    script.
+        const cctx = document.getElementById('bigChart');
+        let data = !{JSON.stringify(props)};
+
+        new Chart(cctx, {
+            type: 'line',
+            data: {
+            labels: data.map(item => item.name),
+            datasets: [
+                {
+                    label: 'Electronic',
+                    data: data.map(item => item.electronic),
+                    backgroundColor: '#ffc658',
+                    borderColor: '#ffc658',
+                    //- borderWidth: 1,
+                    fill: true,
+                    pointRadius: 0,
+                    tension: 0.4,
+
+                },
+                {
+                    label: 'Clothes',
+                    data: data.map(item => item.clothes),
+                    backgroundColor: '#82ca9d',
+                    borderColor: '#82ca9d',
+                    //- borderWidth: 1,
+                    fill: true,
+                    pointRadius: 0,
+                    tension: 0.4,
+
+                },
+                {
+                    label: 'Books',
+                    data: data.map(item => item.books),
+                    backgroundColor: '#8884d8',
+                    borderColor: '#8884d8',
+                    //- borderWidth: 1,
+                    fill: true,
+                    pointRadius: 0,
+                    tension: 0.3,
+                },
+            ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        //- display: false,
+                        beginAtZero: true,
+                        stacked: true
+                    },
+                    x: {
+                        //- display: false,
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            }
+        });

@@ -1,0 +1,41 @@
+mixin BarChartBox(props)
+  .barChartBox
+    h1= props.title
+    .chart
+      canvas(id=props.dataKey width="99%" height="100%")
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+
+    script.
+        const ctx_#{props.dataKey} = document.getElementById('#{props.dataKey}');
+        let props_#{props.dataKey} = !{JSON.stringify(props)};
+
+        new Chart(ctx_#{props.dataKey}, {
+            type: 'bar',
+            data: {
+            labels: props_#{props.dataKey}.chartData.map(data => data.name),
+            datasets: [{
+                label: props_#{props.dataKey}.dataKey,
+                data: props_#{props.dataKey}.chartData.map(data => data.value),
+                backgroundColor: props_#{props.dataKey}.color,
+            }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        display: false,
+                        beginAtZero: true,
+                    },
+                    x: {
+                        display: false,
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
