@@ -6,6 +6,22 @@ mixin DataTable(columns, rows)
       script.
         function handleDelete(id) {
             console.log(`Xóa ${slug} với id: ${id}`);
+
+            if (confirm('Bạn có chắc chắn muốn xóa phim này không?')) {
+              fetch(`/admin/${slug}/${id}`, {
+                method: 'DELETE',
+              }).then(response => {
+                if (response.ok) {
+                  console.log('Xóa phim thành công');
+                  location.reload();
+                } else {
+                  throw new Error('Xóa phim không thành công');
+                }
+              }).catch(error => {
+                console.error('Lỗi khi xóa phim:', error);
+                alert('Đã có lỗi xảy ra khi xóa phim');
+              });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -27,10 +43,10 @@ mixin DataTable(columns, rows)
                   ...column,
                   cellRenderer: params => 
                     `<div class="action">
-                      <a href="/admin/${slug}/${params.data.id}">
+                      <a href="/admin/${slug}/${params.data.movie_id}">
                         <img src="/images/admin_img/view.svg" alt="View" />
                       </a>
-                      <div onclick="handleDelete(${params.data.id})">
+                      <div onclick="handleDelete(${params.data.movie_id})">
                         <img src="/images/admin_img/delete.svg" alt="Delete" />
                       </div>
                     </div>`

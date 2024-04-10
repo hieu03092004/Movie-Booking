@@ -1,9 +1,9 @@
-mixin Add(columns, slug)
-  .add
+mixin Update(columns, data, slug)
+  .update
     .modal
-      span.close(onclick="handleOpen(false)") X
-      h1= slug === 'users' ? 'Add New User' : slug === 'movies' ? 'Add New Movies' : 'Add New Item'
-      form(onSubmit="handleSubmit(event)")
+      span.close(onclick="handleOpenUpdateBtn(false)") X
+      h1= slug === 'users' ? 'Update User' : slug === 'movies' ? 'Update Movie' : 'Update Item'
+      form(onSubmit="handleUpdate(event)")
         each column in columns.filter(item => item.field !== 'movie_id' && item.field !== 'action' && item.field !== 'createdAt' && !item.checkboxSelection)
           .item
             label= column.headerName
@@ -11,15 +11,17 @@ mixin Add(columns, slug)
               //- when 'img', 'movie_image'
                 input(type="file", name="file", id="file", class="inputfile", required)
               when 'release_date'
-                input(type="date", name=column.field, placeholder=column.headerName, required)
+                - var dateParts = movie[column.field].split("-")
+                - var formattedDate = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
+                input(type="date", value=formattedDate, name=column.field, placeholder=column.headerName, required)
               when 'movie_duration'
-                input(type="time", name=column.field, placeholder=column.headerName, step="1", required)
+                input(type="time", value=movie[column.field], name=column.field, placeholder=column.headerName, step="1", required)
               default
-                input(type=column.type, placeholder=column.field, name=column.field, required)
-        button(type="submit") Send
+                input(type=column.type, value=movie[column.field], name=column.field, placeholder=column.field, required)
+        button(type="submit") Update
 
     script.
-      function handleSubmit(event) {
+      function handleUpdate(event) {
         event.preventDefault();
         const formData = new FormData(document.querySelector('form'));
 
@@ -27,16 +29,18 @@ mixin Add(columns, slug)
         formData.forEach((value, key) => {
           data[key] = value;
         });
-
-        fetch('/admin/movies/add', {
-          method: 'POST',
-           headers: {
+        console.log(JSON.stringify(data));
+        fetch(`/admin/${slug}/${movie.movie_id}`, {
+          method: 'PUT',
+          headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data),
         }).then(response => {
             if (response.ok) {
               console.log('Form submitted successfully!');
+              document.querySelector('.modal').style.display = 'none';
+              location.reload();
             } else {
               console.error('Form submission failed.');
             }

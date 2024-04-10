@@ -2,7 +2,7 @@ mixin PieChartBox(props)
   .pieChartBox
     h1 Leads by Source
     .chart
-      canvas#pieChart(width="99%")
+      canvas#pieChart(width="99%" height="100%")
     .options
       each item in props
         .option(key=item.name)
@@ -27,10 +27,9 @@ mixin PieChartBox(props)
             }]
             },
             options: {
-                cutoutPercentage: 50,
-                borderWidth: 0,
+                borderWidth: 1,
                 //- borderAlign: 'inner',
-                cutout: 105,
+                cutout: '80%',
                 responsive: true,
                 maintainAspectRatio: false,
                 //- scales: {

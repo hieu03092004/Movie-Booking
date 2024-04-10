@@ -29,9 +29,9 @@ const menu = [
       },
       {
         id: 2,
-        title: "Products",
-        url: "/admin/products",
-        icon: "/images/admin_img/product.svg",
+        title: "Movies",
+        url: "/admin/movies",
+        icon: "/images/admin_img/movie.svg",
       },
       {
         id: 3,

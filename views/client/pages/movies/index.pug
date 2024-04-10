@@ -12,7 +12,7 @@ block main
                     if(item.status_name =="coming")
                         div(class="col-lg-3 col-md-3 col-sm-6")
                             div(class="running_movies")
-                                img(src=item.images class="inner-movie")
+                                img(src=item.movie_image class="inner-movie")
                             div(class="movie-name")
                                 h2(class="inner-content") #{item.movie_title}
                             div(class="movie-info")
@@ -37,7 +37,7 @@ block main
                         .image-box
                             .col-lg-2.col-md-3.col-sm-6
                                 .card(style="width: 12rem;")
-                                    img(src=item.images, class="inner-image")
+                                    img(src=item.movie_image, class="inner-image")
                                     .card-body
                                         div(class="movie-name")
                                             h2(class="inner-content") #{item.movie_title}
