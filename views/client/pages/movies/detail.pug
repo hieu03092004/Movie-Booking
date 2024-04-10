@@ -3,9 +3,9 @@ block main
    div(class="moviedetails")
     div(class="container")
         div(class="row")
-            if(movie.images)
+            if(movie.movie_image)
                 div(class="col-xl-5 col-lg-5 image")
-                    img(src=`/${movie.images}`,class="inner-image")
+                    img(src=`/${movie.movie_image}`,class="inner-image")
             div(class="col-xl-7 col-lg-7 info")
                 table.content-table
                     thead

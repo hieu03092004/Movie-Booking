@@ -7,13 +7,16 @@ const port = process.env.PORT;
 
 const menu = require("./data/menu.js");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //dung de cau hinh views trong giao dien
 app.set("views", "./views");
 //end dung de cau hinh pug trong giao dien
 app.set("view engine", "pug");
 
-app.use(express.static("public"));
 //dung de nhung file tinh vao
+app.use(express.static("public"));
 
 app.locals.menu = menu;
 
@@ -21,6 +24,7 @@ app.locals.menu = menu;
 routes(app);
 adminRoutes(app);
 //end routes
+
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });

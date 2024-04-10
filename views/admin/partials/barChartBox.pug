@@ -2,7 +2,7 @@ mixin BarChartBox(props)
   .barChartBox
     h1= props.title
     .chart
-      canvas(id=props.dataKey width="99%" height="100%")
+      canvas(id=props.dataKey width="99%")
 
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
 
@@ -21,8 +21,8 @@ mixin BarChartBox(props)
             }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                //- responsive: true,
+                //- maintainAspectRatio: false,
                 scales: {
                     y: {
                         display: false,

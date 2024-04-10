@@ -8,7 +8,7 @@ mixin ChartBox(props)
       a(href='/', style={ color: props.color }) View all
     .chartInfo
       .chart
-        canvas(id=props.dataKey width="99%")
+        canvas(id=props.dataKey width="99%" height="100%")
       .texts
         span.percentage(style={ color: props.percentage < 0 ? "tomato" : "limegreen" })= props.percentage + '%'
         span.duration this month
@@ -50,7 +50,7 @@ mixin ChartBox(props)
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                //- maintainAspectRatio: false,
                 scales: {
                     y: {
                       beginAtZero: true,
