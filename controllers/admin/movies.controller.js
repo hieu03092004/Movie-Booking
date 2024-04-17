@@ -1,11 +1,9 @@
-const productColumns = require("../../data/productColumns.js");
+const movieColumns = require("../../data/movieColumns.js");
 const db = require("../../config/connect.js");
 
 module.exports.index = (req, res) => {
-  // let openAddButton = false;
-
   const query =
-    "SELECT movie_id, release_date,  movie_title, director,genre,movie_language,age_limit FROM movies";
+    "SELECT movie_id, release_date, movie_title, director,genre,movie_language,age_limit FROM movies";
 
   db.request().query(query, (error, results) => {
     if (error) {
@@ -31,8 +29,7 @@ module.exports.index = (req, res) => {
 
     res.render("admin/pages/movies/index.pug", {
       pageTitle: "Danh sách phim",
-      // openAddButton,
-      productColumns,
+      movieColumns,
       movies,
       slug: "movies",
     });
@@ -70,13 +67,65 @@ module.exports.getMovieById = (req, res) => {
     const day = releaseDate.getDate().toString().padStart(2, "0");
     movie.release_date = `${day}-${month}-${year}`;
 
-    // console.log(movie);
+    const query1 = `SELECT CONCAT(u.first_name, ' ', u.last_name) AS fullname, cf.comment, cf.feedback_date
+    FROM customer_feedback cf
+    JOIN users u ON cf.user_id = u.user_id
+    WHERE cf.movie_id = ${movieId};`;
+    db.request().query(query1, (error, reviewResults) => {
+      if (error) {
+        console.error("Error querying database:", error);
+        return res.status(500).json({ message: "Server error" });
+      }
 
-    res.render("admin/pages/movies/detailMovie.pug", {
-      pageTitle: `Movie ${movie.movie_id}`,
-      productColumns,
-      movie,
-      slug: "movies",
+      const reviews = reviewResults.recordset.map((item) => {
+        const feedbackDate = new Date(item.feedback_date);
+        const year = feedbackDate.getFullYear();
+        const month = feedbackDate.toLocaleString("en-US", { month: "short" });
+        const day = feedbackDate.getDate();
+        item.feedback_date = `${day} ${month} ${year}`;
+        return item;
+      });
+
+      const query2 = `SELECT
+      CASE WHEN DATEPART(WEEKDAY, st.show_date) = 1 THEN 'Sun'
+          WHEN DATEPART(WEEKDAY, st.show_date) = 2 THEN 'Mon'
+          WHEN DATEPART(WEEKDAY, st.show_date) = 3 THEN 'Tue'
+          WHEN DATEPART(WEEKDAY, st.show_date) = 4 THEN 'Wed'
+          WHEN DATEPART(WEEKDAY, st.show_date) = 5 THEN 'Thu'
+          WHEN DATEPART(WEEKDAY, st.show_date) = 6 THEN 'Fri'
+          WHEN DATEPART(WEEKDAY, st.show_date) = 7 THEN 'Sat'
+      END AS name,
+      SUM(sp.price) AS value
+    FROM
+        bookings AS b
+        JOIN seat_prices AS sp ON b.seat_price_id = sp.seat_price_id
+        JOIN showtimes AS st ON b.showtime_id = st.showtime_id
+        JOIN movies AS m ON st.movie_id = m.movie_id
+    WHERE
+        m.movie_id = ${movieId}
+        AND st.show_date BETWEEN '2024-04-15' AND '2024-04-21'
+    GROUP BY
+        DATEPART(WEEKDAY, st.show_date)
+    ORDER BY
+        DATEPART(WEEKDAY, st.show_date);`;
+
+      db.request().query(query2, (error, bookingResults) => {
+        if (error) {
+          console.error("Error querying database:", error);
+          return res.status(500).json({ message: "Server error" });
+        }
+
+        const bookings = bookingResults.recordset;
+
+        res.render("admin/pages/movies/detailMovie.pug", {
+          pageTitle: `Movie ${movie.movie_id}`,
+          movieColumns,
+          movie,
+          reviews,
+          bookings,
+          slug: "movie",
+        });
+      });
     });
   });
 };
@@ -139,21 +188,6 @@ module.exports.update = (req, res) => {
     status_name,
     release_date,
   } = req.body;
-
-  console.log(
-    movie_title,
-    movieId,
-    director,
-    genre,
-    movie_duration,
-    movie_language,
-    movie_image,
-    movie_desc,
-    movie_trailer,
-    age_limit,
-    status_name,
-    release_date
-  );
 
   const query = `UPDATE movies SET movie_title = N'${movie_title}', director = N'${director}', genre = N'${genre}', movie_duration = '${movie_duration}', movie_language = N'${movie_language}', movie_image = '${movie_image}', movie_desc = N'${movie_desc}', movie_trailer = '${movie_trailer}', age_limit = N'${age_limit}', status_name = N'${status_name}', release_date = '${release_date}' WHERE movie_id = ${movieId}`;
 

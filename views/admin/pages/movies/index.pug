@@ -7,8 +7,8 @@ block main
         .info
             h1 Movies
             button(onclick="handleOpen(true)") Add New Movies
-        +DataTable(productColumns, movies)
-        +Add(productColumns, slug)
+        +DataTable(movieColumns, movies)
+        +Add(movieColumns, slug)
 
         script.
             let slug = !{JSON.stringify(slug)};

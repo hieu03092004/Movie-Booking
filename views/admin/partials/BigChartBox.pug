@@ -16,33 +16,30 @@ mixin BigChartBox(props)
             labels: data.map(item => item.name),
             datasets: [
                 {
-                    label: 'Electronic',
-                    data: data.map(item => item.electronic),
+                    label: 'Hà Nội',
+                    data: data.map(item => item.HaNoi),
                     backgroundColor: '#ffc658',
                     borderColor: '#ffc658',
-                    //- borderWidth: 1,
                     fill: true,
                     pointRadius: 0,
                     tension: 0.4,
 
                 },
                 {
-                    label: 'Clothes',
-                    data: data.map(item => item.clothes),
+                    label: 'Nha Trang',
+                    data: data.map(item => item.NhaTrang),
                     backgroundColor: '#82ca9d',
                     borderColor: '#82ca9d',
-                    //- borderWidth: 1,
                     fill: true,
                     pointRadius: 0,
                     tension: 0.4,
 
                 },
                 {
-                    label: 'Books',
-                    data: data.map(item => item.books),
+                    label: 'All',
+                    data: data.map(item => item.All),
                     backgroundColor: '#8884d8',
                     borderColor: '#8884d8',
-                    //- borderWidth: 1,
                     fill: true,
                     pointRadius: 0,
                     tension: 0.3,
@@ -54,12 +51,10 @@ mixin BigChartBox(props)
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        //- display: false,
                         beginAtZero: true,
                         stacked: true
                     },
                     x: {
-                        //- display: false,
                         stacked: true
                     }
                 },

@@ -76,13 +76,16 @@ a {
         margin-bottom: 20px; }
         .add .modal form .item label {
           font-size: 14px; }
-        .add .modal form .item input {
+        .add .modal form .item input,
+        .add .modal form .item select {
           padding: 10px;
           background-color: transparent;
           color: white;
           outline: none;
           border: 1px solid #ddd;
           border-radius: 3px; }
+        .add .modal form .item select option {
+          background-color: #2a3447; }
       .add .modal form button {
         width: 100%;
         padding: 10px;
@@ -137,13 +140,16 @@ a {
         margin-bottom: 20px; }
         .update .modal form .item label {
           font-size: 14px; }
-        .update .modal form .item input {
+        .update .modal form .item input,
+        .update .modal form .item select {
           padding: 10px;
           background-color: transparent;
           color: white;
           outline: none;
           border: 1px solid #ddd;
           border-radius: 3px; }
+        .update .modal form .item select option {
+          background-color: #2a3447; }
       .update .modal form button {
         width: 100%;
         padding: 10px;
@@ -440,6 +446,9 @@ a {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      border-radius: 3px;
       object-fit: cover; }
       @media screen and (max-width: 1400px) {
         .topBox .list .listItem .user img {
@@ -450,9 +459,9 @@ a {
     .topBox .list .listItem .user .userTexts {
       display: flex;
       flex-direction: column;
-      gap: 5px; }
+      gap: 10px; }
       .topBox .list .listItem .user .userTexts .username {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 500; }
       .topBox .list .listItem .user .userTexts .email {
         font-size: 12px; }
