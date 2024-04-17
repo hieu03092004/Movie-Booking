@@ -1,44 +1,5 @@
-//- extends ../../layouts/default.pug
-
-//- block main
-//-     .userSingle
-//-         .single
-//-             .view
-//-                 .info
-//-                     .topInfo
-//-                         //- if user.img
-//-                         img(src="https://images.pexels.com/photos/8405873/pexels-photo-8405873.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load", alt="")
-//-                         h1 John Doe
-//-                         button() Update
-//-                     .details
-//-                         //- if user.info && user.info.length > 0
-//-                         //-     each itemValue, itemTitle in Object.entries(user.info)
-//-                         .item()
-//-                             span.itemTitle Username:
-//-                             span.itemValue John Doe
-//-                 hr
-//-                 //- if user.chart
-//-                 //- .chart
-//-                 //-     ResponsiveContainer(width="100%", height="100%")
-//-                 //-         LineChart(width=500, height=300, data=user.chart.data, margin={top: 5, right: 30, left: 20, bottom: 5})
-//-                 //-             XAxis(dataKey="name")
-//-                 //-             YAxis
-//-                 //-             Tooltip
-//-                 //-             Legend
-//-                 //-             each dataKey in user.chart.dataKeys
-//-                 //-                 Line(type="monotone", dataKey=dataKey.name, stroke=dataKey.color)
-//-             .activities
-//-                 h2 Latest Activities
-//-                 if user.activities
-//-                     ul
-//-                         each activity in user.activities
-//-                             li(key=activity.text)
-//-                                 div
-//-                                     p= activity.text
-//-                                     time= activity.time
-
-
 extends ../../layouts/default.pug
+include ../../partials/update.pug
 
 block main
     .userSingle
@@ -46,81 +7,55 @@ block main
             .view
                 .info
                     .topInfo
-                        //- if user.img
-                        img(src="https://images.pexels.com/photos/39866/entrepreneur-startup-start-up-man-39866.jpeg?auto=compress&cs=tinysrgb&w=600", alt="")
-                        h1 John Doe
-                        button() Update
+                        img(src=user.avatar, alt="")
+                        h1 #{user.first_name + ' ' + user.last_name}
+                        button(onclick="handleOpenUpdateBtn(true)") Update
                     .details
-                        //- if user.info && user.info.length > 0
-                        //-     each itemValue, itemTitle in Object.entries(user.info)
-                        .item
-                            span.itemTitle Username:
-                            span.itemValue Johndoe99
                         .item
                             span.itemTitle Fullname:
-                            span.itemValue John Doe
+                            span.itemValue #{user.first_name + ' ' + user.last_name}
+                        .item
+                            span.itemTitle DoB:
+                            span.itemValue #{user.date_of_birth}
+                        .item
+                            span.itemTitle Gender:
+                            span.itemValue #{user.gender}
                         .item
                             span.itemTitle Email:
-                            span.itemValue johndoe@gmail.com
+                            span.itemValue #{user.email}
                         .item
                             span.itemTitle Phone:
-                            span.itemValue 123 456 789
+                            span.itemValue #{user.phone}
                 hr
-                .chart
-                    canvas#detailUser(width="99%")
             .activities
                 h2 Latest Activities
                     ul 
-                        li 
-                            div 
-                                p John Doe purchased Playstation 5 Digital Edition 
-                                time 3 day ago
-                        li 
-                            div 
-                                p John Doe purchased Playstation 5 Digital Edition 
-                                time 3 day ago
-                        li 
-                            div 
-                                p John Doe purchased Playstation 5 Digital Edition 
-                                time 3 day ago
-                        li 
-                            div 
-                                p John Doe purchased Playstation 5 Digital Edition 
-                                time 3 day ago
+                        each book in newBooks
+                            li
+                                div 
+                                    p= book.last_name + ' has booked ' + book.number + ' ticket for the movie ' + book.movie_title
+                                    time= book.booking_date
+                        
+                            
+    +Update(userColumns, user, slug)        
 
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
 
     script.
         const detailUser = document.getElementById('detailUser');
-        let singleUser = !{JSON.stringify(singleUser)};
 
-        new Chart(detailUser, {
-            type: 'line',
-            data: {
-            labels: singleUser.chartData.map(data => data.name),
-            datasets: [{
-                label: singleUser.dataKey,
-                data: singleUser.chartData.map(data => data.value),
-                pointRadius: 0,
-                pointHoverRadius: 0,
-                fill: true, 
-                borderColor: singleUser.color,
-                borderWidth: 3,
-                tension: 0.4, 
-            }]
-            },
-            options: {
-                responsive: true,
-                //- maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        enabled: true,
-                        intersect: false,
-                        mode: 'index',
-                    },
+
+        let openUpdateButton = false;
+
+        let slug = !{JSON.stringify(slug)};
+        let user = !{JSON.stringify(user)};
+        const handleOpenUpdateBtn = (value) => {
+                openAddButton = value;
+                if (value) {
+                    document.querySelector('.update').style.display = 'flex';
+                } else {
+                    document.querySelector('.update').style.display = 'none';
                 }
-            }
-        });
+            };
+        
+        

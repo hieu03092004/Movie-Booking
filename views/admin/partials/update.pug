@@ -1,0 +1,60 @@
+mixin Update(columns, data, slug)
+  .update
+    .modal
+      span.close(onclick="handleOpenUpdateBtn(false)") X
+      h1= slug === 'user' ? 'Update User' : slug === 'movie' ? 'Update Movie' : 'Update Item'
+      form(onSubmit="handleUpdate(event)")
+        each column in columns.filter(item => item.field !== 'movie_id'&& item.field !== 'user_id' && item.field !== 'action' && item.field !== 'createdAt' && !item.checkboxSelection)
+          .item
+            label= column.headerName
+            case column.field
+              //- when 'img', 'movie_image'
+                input(type="file", name="file", id="file", class="inputfile", required)
+              when 'release_date'
+                - var dateParts = movie[column.field].split("-")
+                - var formattedDate = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
+                input(type="date", value=formattedDate, name=column.field, placeholder=column.headerName, required)
+              when 'movie_duration'
+                input(type="time", value=movie[column.field], name=column.field, placeholder=column.headerName, step="1", required)
+              when 'date_of_birth'
+                - var dateParts = user[column.field].split("-")
+                - var formattedDate = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
+                input(type="date", value=formattedDate, name=column.field, placeholder=column.headerName, required)
+              when 'gender'
+                select(name=column.field, required)
+                  option(value='Male', selected=user[column.field] === 'Male') Male
+                  option(value='Female', selected=user[column.field] === 'Female') Female
+                  option(value='Other', , selected=user[column.field] === 'Other') Other
+              default
+                input(type=column.type, value= slug === 'user' ? user[column.field] : movie[column.field], name=column.field, placeholder=column.field, required)
+        button(type="submit") Update
+
+    script.
+      function handleUpdate(event) {
+        event.preventDefault();
+        const formData = new FormData(document.querySelector('form'));
+
+        const data = {};
+        formData.forEach((value, key) => {
+          data[key] = value;
+        });
+        //- console.log(JSON.stringify(data));
+        fetch(`/admin/${slug}/${movie.movie_id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }).then(response => {
+            if (response.ok) {
+              console.log('Form submitted successfully!');
+              document.querySelector('.modal').style.display = 'none';
+              location.reload();
+            } else {
+              console.error('Form submission failed.');
+            }
+          }).catch(error => {
+            console.error('Error:', error);
+          });
+            
+      }

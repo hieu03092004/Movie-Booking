@@ -29,15 +29,15 @@ const menu = [
       },
       {
         id: 2,
-        title: "Products",
-        url: "/admin/products",
-        icon: "/images/admin_img/product.svg",
+        title: "Movies",
+        url: "/admin/movies",
+        icon: "/images/admin_img/movie.svg",
       },
       {
         id: 3,
-        title: "Orders",
-        url: "/admin/orders",
-        icon: "/images/admin_img/order.svg",
+        title: "Tickets",
+        url: "/admin/tickets",
+        icon: "/images/admin_img/ticket.svg",
       },
       {
         id: 4,

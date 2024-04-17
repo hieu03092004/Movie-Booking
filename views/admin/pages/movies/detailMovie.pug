@@ -1,0 +1,96 @@
+extends ../../layouts/default.pug
+include ../../partials/update.pug
+
+
+block main
+    .movieSingle
+        .single
+            .view
+                .info
+                    .topInfo
+                        img(src=movie.movie_image, alt="Movie Poster")
+                        h1 #{movie.movie_title}
+                        button(onclick="handleOpenUpdateBtn(true)") Update
+                    .details
+                        .item
+                            span.itemTitle Director:
+                            span.itemValue #{movie.director} 
+                        .item
+                            span.itemTitle Genre:
+                            span.itemValue #{movie.genre} 
+                        .item
+                            span.itemTitle Language:
+                            span.itemValue #{movie.movie_language} 
+                        .item
+                            span.itemTitle Duration:
+                            span.itemValue #{movie.movie_duration} 
+                        .item
+                            span.itemTitle Release Date:
+                            span.itemValue #{movie.release_date} 
+                        .item
+                            span.itemTitle Age Limit:
+                            span.itemValue #{movie.age_limit}     
+                hr
+                .chart
+                    canvas#detailMovie(width="99%")
+            .activities
+                h2 Customer Feedback
+                    ul 
+                        each review in reviews
+                            li
+                                div 
+                                    p= review.fullname + ' has commented: ' + review.comment
+                                    time= review.feedback_date
+                        
+                            
+    +Update(movieColumns, movie, slug)
+
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+
+    script.
+        let openUpdateButton = false;
+
+        let slug = !{JSON.stringify(slug)};
+        let movie = !{JSON.stringify(movie)};
+        let bookings = !{JSON.stringify(bookings)};
+
+
+        const handleOpenUpdateBtn = (value) => {
+                openAddButton = value;
+                if (value) {
+                    document.querySelector('.update').style.display = 'flex';
+                } else {
+                    document.querySelector('.update').style.display = 'none';
+                }
+            };
+        const detailMovie = document.getElementById('detailMovie');
+
+        new Chart(detailMovie, {
+            type: 'line',
+            data: {
+                labels: bookings.map(data => data.name),
+                datasets: [{
+                    data: bookings.map(data => data.value),
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true, 
+                    borderColor: "#8884d8",
+                    borderWidth: 3,
+                    tension: 0.4, 
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            }
+        });

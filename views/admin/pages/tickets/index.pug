@@ -1,21 +1,19 @@
 extends ../../layouts/default.pug
 include ../../partials/dataTable.pug
-include ../../partials/Add.pug
+include ../../partials/add.pug
 
 block main
-    .users
+    .products
         .info
-            h1 Users
-            button(onclick="handleOpen(true)") Add New User
-        +DataTable(userColumns, users)
-        +Add(userColumns, slug)
+            h1 Tickets
+        +DataTable(ticketColumns, tickets)
 
         script.
             let slug = !{JSON.stringify(slug)};
-            let openAddUserButton = false;
+            let openAddButton = false;
 
             const handleOpen = (value) => {
-                openAddUserButton = value;
+                openAddButton = value;
                 if (value) {
                     document.querySelector('.add').style.display = 'flex';
                 } else {
