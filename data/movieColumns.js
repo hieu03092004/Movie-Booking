@@ -1,4 +1,4 @@
-const columnsdata = [
+const moviedata = [
   {
     checkboxSelection: true,
     headerCheckboxSelection: true,
@@ -77,4 +77,4 @@ const columnsdata = [
   },
 ];
 
-module.exports = columnsdata;
+module.exports = moviedata;

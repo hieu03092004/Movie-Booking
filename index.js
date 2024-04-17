@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const routes = require("./routes/client/indexroutes.js");
-const adminRoutes = require("./routes/admin/indexroutes.js");
+const adminRoutes = require("./routes/admin/index.routes.js");
 const app = express();
 const port = process.env.PORT;
 

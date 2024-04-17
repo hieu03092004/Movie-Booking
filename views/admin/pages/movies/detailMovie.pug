@@ -8,7 +8,6 @@ block main
             .view
                 .info
                     .topInfo
-                        //- if movie.img
                         img(src=movie.movie_image, alt="Movie Poster")
                         h1 #{movie.movie_title}
                         button(onclick="handleOpenUpdateBtn(true)") Update
@@ -35,25 +34,16 @@ block main
                 .chart
                     canvas#detailMovie(width="99%")
             .activities
-                h2 Latest Activities
+                h2 Customer Feedback
                     ul 
-                        li 
-                            div 
-                                p John Doe purchased tickets for Movie Title
-                                time 3 days ago
-                        li 
-                            div 
-                                p John Doe purchased tickets for Movie Title
-                                time 3 days ago
-                        li 
-                            div 
-                                p John Doe purchased tickets for Movie Title
-                                time 3 days ago
-                        li 
-                            div 
-                                p John Doe purchased tickets for Movie Title
-                                time 3 days ago
-    +Update(productColumns, movie, slug)
+                        each review in reviews
+                            li
+                                div 
+                                    p= review.fullname + ' has commented: ' + review.comment
+                                    time= review.feedback_date
+                        
+                            
+    +Update(movieColumns, movie, slug)
 
 
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
@@ -63,7 +53,9 @@ block main
 
         let slug = !{JSON.stringify(slug)};
         let movie = !{JSON.stringify(movie)};
-        //- console.log(movie);
+        let bookings = !{JSON.stringify(bookings)};
+
+
         const handleOpenUpdateBtn = (value) => {
                 openAddButton = value;
                 if (value) {
@@ -72,36 +64,33 @@ block main
                     document.querySelector('.update').style.display = 'none';
                 }
             };
-        //- console.log(singleMovie);
-        //- const detailMovie = document.getElementById('detailMovie');
+        const detailMovie = document.getElementById('detailMovie');
 
-
-        //- new Chart(detailMovie, {
-        //-     type: 'line',
-        //-     data: {
-        //-         labels: movie.chartData.map(data => data.name),
-        //-         datasets: [{
-        //-             label: movie.dataKey,
-        //-             data: movie.chartData.map(data => data.value),
-        //-             pointRadius: 0,
-        //-             pointHoverRadius: 0,
-        //-             fill: true, 
-        //-             borderColor: movie.color,
-        //-             borderWidth: 3,
-        //-             tension: 0.4, 
-        //-         }]
-        //-     },
-        //-     options: {
-        //-         responsive: true,
-        //-         plugins: {
-        //-             legend: {
-        //-                 display: false
-        //-             },
-        //-             tooltip: {
-        //-                 enabled: true,
-        //-                 intersect: false,
-        //-                 mode: 'index',
-        //-             },
-        //-         }
-        //-     }
-        //- });
+        new Chart(detailMovie, {
+            type: 'line',
+            data: {
+                labels: bookings.map(data => data.name),
+                datasets: [{
+                    data: bookings.map(data => data.value),
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true, 
+                    borderColor: "#8884d8",
+                    borderWidth: 3,
+                    tension: 0.4, 
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            }
+        });

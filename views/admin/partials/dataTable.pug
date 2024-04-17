@@ -6,20 +6,23 @@ mixin DataTable(columns, rows)
       script.
         function handleDelete(id) {
             console.log(`Xóa ${slug} với id: ${id}`);
+            
+            let objectName = slug === 'movies' ? 'phim' : 'người dùng';
 
-            if (confirm('Bạn có chắc chắn muốn xóa phim này không?')) {
+
+            if (confirm(`Bạn có chắc chắn muốn xóa ${objectName} này không?`)) {
               fetch(`/admin/${slug}/${id}`, {
                 method: 'DELETE',
               }).then(response => {
                 if (response.ok) {
-                  console.log('Xóa phim thành công');
+                  console.log(`Xóa ${objectName} thành công`);
                   location.reload();
                 } else {
-                  throw new Error('Xóa phim không thành công');
+                  throw new Error(`Xóa ${objectName} không thành công`);
                 }
               }).catch(error => {
-                console.error('Lỗi khi xóa phim:', error);
-                alert('Đã có lỗi xảy ra khi xóa phim');
+                console.error(`Lỗi khi xóa ${objectName}:`, error);
+                alert(`Đã có lỗi xảy ra khi xóa ${objectName}`);
               });
             }
         }
@@ -32,10 +35,10 @@ mixin DataTable(columns, rows)
           const gridOptions = {
             rowData: rows,
             columnDefs: columns.map(column => {
-              if (column.field === 'img') {
+              if (column.field === 'avatar') {
                 return {
                   ...column,
-                  cellRenderer: params => `<img src="${params.value || '/images/admin_img/noavatar.png'}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: flex; align-item:center;" />`
+                  cellRenderer: params => `<img src="${params.value || '/images/admin_img/noavatar.png'}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: flex; align-items:center;" />`
                 };
               }
               if (column.field === 'action') {
@@ -43,10 +46,10 @@ mixin DataTable(columns, rows)
                   ...column,
                   cellRenderer: params => 
                     `<div class="action">
-                      <a href="/admin/${slug}/${params.data.movie_id}">
+                      <a href="/admin/${slug}/${params.data[slug === 'movies' ? 'movie_id' : 'user_id']}">
                         <img src="/images/admin_img/view.svg" alt="View" />
                       </a>
-                      <div onclick="handleDelete(${params.data.movie_id})">
+                      <div onclick="handleDelete(${params.data[slug === 'movies' ? 'movie_id' : 'user_id']})">
                         <img src="/images/admin_img/delete.svg" alt="Delete" />
                       </div>
                     </div>`
@@ -57,7 +60,6 @@ mixin DataTable(columns, rows)
             defaultColDef: {
               sortable: true,
               flex: 1,
-              //- minWidth: 100,
               filter: true,
               resizable: true,
             },
@@ -65,9 +67,6 @@ mixin DataTable(columns, rows)
             paginationPageSize: 10,
             paginationPageSizeSelector: [5, 10, 20],
             rowSelection: 'multiple',
-            //- suppressRowClickSelection: true,
-            //- enableFilter: true,
-            //- quickFilter: true,
             columnTypes: {
               string: { filter: 'agTextColumnFilter' },
               boolean: { filter: 'agBooleanColumnFilter' }

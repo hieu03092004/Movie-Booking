@@ -35,9 +35,9 @@ const menu = [
       },
       {
         id: 3,
-        title: "Orders",
-        url: "/admin/orders",
-        icon: "/images/admin_img/order.svg",
+        title: "Tickets",
+        url: "/admin/tickets",
+        icon: "/images/admin_img/ticket.svg",
       },
       {
         id: 4,
