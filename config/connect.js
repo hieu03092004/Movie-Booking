@@ -2,9 +2,9 @@ var sql = require("mssql");
 
 var config = {
   user: "sa",
-  password: "Tritt66@gmail",
+  password: "03092004",
   server: "localhost", // Tên máy chủ SQL Server
-  database: "ApolloCinema", // Tên cơ sở dữ liệu
+  database: "ApolloCinemaCuoiCungKhongDoiNua", // Tên cơ sở dữ liệu
   options: {
     trustServerCertificate: true,
     encrypt: false,

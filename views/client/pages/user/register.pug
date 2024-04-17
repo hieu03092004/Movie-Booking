@@ -1,0 +1,81 @@
+extends ../../layouts/default.pug
+block main
+    .container.my-5
+        .row.justify-content-center
+            .col-8
+                h1(class="text-center") Đăng ký tài khoản
+                form(
+                    action="/user/register"
+                    method="POST"
+                )
+                    .row
+                        .col-6
+                            div(class="form-group")
+                                label(for="firstName") Họ
+                                input(
+                                    type="text"
+                                    class="form-control"
+                                    id="firstName"
+                                    name="firstName"
+                                    required
+                                )
+                            div(class="form-group")
+                                label(for="date_of_birth") Ngày sinh
+                                input(
+                                    type="date"
+                                    class="form-control"
+                                    id="date_of_birth"
+                                    name="date_of_birth"
+                                    required
+                                )
+                            div(class="form-group")
+                                label(for="address") Địa chỉ
+                                input(
+                                    type="text"
+                                    class="form-control"
+                                    id="address"
+                                    name="address"
+                                )
+                            div(class="form-group")
+                                label(for="userName") Tên đăng nhập
+                                input(
+                                    type="text"
+                                    class="form-control"
+                                    id="userName"
+                                    name="userName"
+                                    required
+                                )
+                            div(class="form-group")
+                                label(for="email") Email
+                                input(
+                                    type="text"
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    required
+                                )
+                        .col-6
+                            .form-group
+                                label(for="lastName") Tên
+                                input.form-control(type="text", id="lastName", name="lastName", required)
+                            .form-group
+                                label(for="gender") Giới tính
+                                input.form-control(type="text", id="gender", name="gender", required)
+                            .form-group
+                                label(for="phone") Số điện thoại
+                                input.form-control(type="text", id="phone", name="phone")
+                            .form-group
+                                label(for="password") Mật khẩu
+                                input.form-control(type="password", id="password", name="password", required)
+                            div(class="form-group")
+                                label(for="email") Ảnh
+                                input(
+                                    type="text"
+                                    class="form-control"
+                                    id="avatar"
+                                    name="avatar"
+                                    required
+                                )
+                        .col-12
+                            .form-group
+                            button.btn.btn-primary.btn-block(type="submit") Đăng ký

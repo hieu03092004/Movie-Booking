@@ -1,0 +1,71 @@
+extends ../../layouts/default.pug
+block main
+    .container.py-5
+        .row.mb-4
+            .col-lg-8.mx-auto.text-center
+                 h1.display-6 BOOKING SUMMARY
+        .row
+            .col-lg-6.mx-auto
+                .card
+                    .card-header
+                        center
+                            img(src='/images/cgvlogo.png' width='30%')
+                            h6  Near Upansna Circle, Surendranagar
+                        table
+                            tbody
+                                tr
+                                    td +91 846050 2720
+                                    if(user)   
+                                        td(style='padding: 12px 2px 12px 155px;') Customer ID: #{user.userID}
+                                tr
+                                    td
+                                    if(ticketDetail)
+                                        td(style='padding: 1px 2px 1px 155px;') Date: #{ticketDetail.date}
+                        hr
+                        center
+                            if(ticketDetail)
+                                h3 Phim: #{ticketDetail.movieName}
+                        table
+                            tbody
+                                tr
+                                    th Tên khách hàng
+                                    th(style='padding: 1px 105px;') Địa chỉ
+                                tr
+                                    if(user)
+                                        td #{user.name}
+                                        td(style='padding: 12px 105px;') #{user.address}
+                                tr
+                                    th Email
+                                    th(style='padding: 1px 105px;') Phone
+                                tr  
+                                    if(user)
+                                        td #{user.email}
+                                        td(style='padding: 12px 105px;') #{user.phone}
+                                tr
+                                    th Ngày thanh toán
+                                    th(style='padding: 1px 105px;') Thành tiền
+                                tr  
+                                    if(ticketDetail)
+                                        td #{ticketDetail.date}
+                                        td(style='padding: 12px 105px;') #{ticketDetail.price}
+                        hr
+                        h4 BOOKING DETAILS:
+                        table
+                            tbody
+                                tr
+                                    th Theater
+                                    th(style='padding: 0px 2px 0px 60px') Ngày chiếu
+                                    th(style='padding-left: 30px;') Thời gian
+                                tr
+                                    td No. 1
+                                    if(showDate)
+                                        td(style='padding: 12px 2px 12px 60px') #{showDate}
+                                    if(ticketDetail)
+                                        td(style='padding-left: 30px;')  #{ticketDetail.time}
+                                tr
+                                    th Ghế;
+                                    th(style='padding: 0px 2px 0px 60px;') Tổng ghế
+                                tr
+                                    if(ticketDetail)
+                                        td(style='padding-right: 150px;') #{ticketDetail.seats}
+                                        td(style='padding: 12px 2px 12px 60px') #{ticketDetail.totalSeat}
