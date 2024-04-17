@@ -1,0 +1,342 @@
+extends ../../layouts/default.pug
+block main
+    .seat-booking(style='margin-top:30px')
+        .seat_heading
+            h3
+                center BOOK YOUR SEAT NOW
+        .check-available-seat
+            form(method='post')
+                input(type='hidden' name='t1' value='')
+                center
+                    input.btn.btn-primary(type='submit' name='submit' value='Check Avaliable Seat')
+    .seat
+        form(action=`/booking/payment/${id}` method='post')
+            .container
+                .row
+                    .col-lg-7(style='border-right: 1px solid #ddd;')
+                        .seatCharts-container
+                        .front SCREEN
+                        center
+                            p#notvalid(style='color: red; font-size: 20px;')
+                        .seat_type
+                            if(price) 
+                                p Giá : #{price[1]}.000
+                        #validated
+                        .row
+                            .col-lg-7.col-md-7.col-sm-5
+                                table
+                                    tbody
+                                        tr
+                                            td.line(style='width: 10%;') I
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='I1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='I2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='I3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='I4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='I5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='I6')
+                                        tr
+                                            td.line(style='width: 10%;') H
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='H1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='H2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='H3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='H4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='H5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='H6')
+                                        tr
+                                            td.line(style='width: 10%;') G
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='G1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='G2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='G3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='G4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='G5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='G6')
+                            .col-lg-5.col-md-5.col-sm-7
+                                    #silver.seattable
+                                        table
+                                            tbody
+                                                tr
+                                                    td.line(style='width: 10%;color:white;') I
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='I7')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='I8')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='I9')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='I10')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='I11')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='I12')
+                                                tr
+                                                    td.line(style='width: 10%;color:white;') H
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='H7')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='H8')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='H9')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='H10')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='H11')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='H12')
+                                                tr
+                                                    td.line(style='width: 10%;color:white;') G
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='G7')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='G8')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='G9')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='G10')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='G11')
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value='G12')
+                        .seat_type
+                              if(price) 
+                                p Giá : #{price[0]}.000
+                        .row
+                            .col-lg-7.col-md-7.col-sm-5
+                                table
+                                    tbody
+                                        tr
+                                            td.line(style='width: 10%;') F
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='F1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='F2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='F3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='F4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='F5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='F6')
+                                        tr
+                                            td.line(style='width: 10%;') E
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='E1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='E2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='E3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='E4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='E5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='E6')
+                                        tr
+                                            td.line(style='width: 10%;') D
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='D1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='D2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='D3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='D4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='D5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='D6')
+                                        tr
+                                            td.line(style='width: 10%;') C
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='C1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='C2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='C3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='C4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='C5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='C6')
+                                        tr
+                                            td.line(style='width: 10%;') B
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='B1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='B2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='B3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='B4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='B5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='B6')
+                            .col-lg-5.col-md-5.col-sm-7
+                                #gold.seattable
+                                    table
+                                        tbody
+                                            tr
+                                                td.line(style='width: 10%;color:white;') F
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='F7')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='F8')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='F9')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='F10')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='F11')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='F12')
+                                            tr
+                                                td.line(style='width: 10%;color:white;')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='E7')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='E8')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='E9')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='E10')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='E11')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='E12')
+                                            tr
+                                                td.line(style='width: 10%;color:white;') D
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='D7')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='D8')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='D9')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='D10')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='D11')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='D12')
+                                            tr
+                                                td.line(style='width: 10%;color:white;') C
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='C7')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='C8')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='C9')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='C10')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='C11')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='C12')
+                                            tr
+                                                td.line(style='width: 10%;color:white;') B
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='B7')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='B8')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='B9')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='B10')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='B11')
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value='B12')
+                        .seat_type
+                              if(price) 
+                                p Giá : #{price[0]}.000
+                        .row
+                            .col-lg-7.col-md-7.col-sm-5
+                                table
+                                    tbody
+                                        tr
+                                            td.line(style='width: 10%;') A
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A1')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A2')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A3')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A4')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A5')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A6')
+                            .col-lg-5.col-md-5.col-sm-7
+                                .seattable
+                                    table
+                                        tbody
+                                        tr
+                                            td.line(style='width: 10%;color:white;') A
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A7')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A8')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A9')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A10')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A11')
+                                            td
+                                                input.larger(type='checkbox' name='seat[]' value='A12')
+                    .col-lg-5
+                        table
+                            tbody
+                                tr  
+                                    if(movie)
+                                        td(width='50%')
+                                            font(color='blue' size='5px' style='font-family: Shruti;') Movie:
+                                        td(bgcolor='79F9E2')
+                                            center
+                                                font(size='5' style='font-family: Shruti; ') #{movie.title}
+                                tr 
+                                    if(movie.movieShowTime)
+                                        td(width='50%')
+                                            font(color='blue' size='5px' style='font-family: Shruti;') Time:
+                                        td(bgcolor='ECF68C')
+                                            center
+                                                font(size='5' style='font-family: Shruti;') #{movie.movieShowTime}
+                                        
+                                tr
+                                    td(width='50%')
+                                        font(color='blue' size='5px' style='font-family: Shruti;') Seat:
+                                    td
+                                        input#selectedtext(type='text' name='seats' placeholder='selected checkboxs')
+                                tr
+                                    td(width='50%')
+                                        font(color='blue' size='5px' style='font-family: Shruti;') Total Seat:
+                                    td
+                                        input#count(type='text' name='totalseat' placeholder='Total Seats')
+                            if(movie.title)
+                                input(type='hidden' name='movie' value=`${movie.title}`)
+                            if(movie.movieShowTime)
+                                input(type='hidden' name='show' value=`${movie.movieShowTime}`)
+                        .col-lg-12
+                            .form-group(style='margin-top: 60%')
+                                input.form-control.btn.btn-primary.py-2(type='submit' value='Payment Now' name='submit')
+                            #count1

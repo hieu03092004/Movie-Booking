@@ -1,9 +1,8 @@
 extends ../../layouts/default.pug
-include ../../mixin/pagination.pug
 block main
     div(class="home")
         .container
-            img(src="/images/theatre_2.jpg",class="inner-image")
+            h2 Kết quả tìm kiếm
         .container
             div(class="row")
                 div(class="col-xl-12")
@@ -11,7 +10,7 @@ block main
                             h2(class="inner-title") Running Movies
                 each item in movies
                     if(item.status_name =="coming")
-                        div(class="col-lg-3 col-md-3 col-sm-6 movie")
+                        div(class="col-lg-3 col-md-3 col-sm-6")
                             div(class="running_movies")
                                 img(src=item.movie_image class="inner-movie")
                             div(class="movie-name")
@@ -28,7 +27,6 @@ block main
                                     span(class="inner-content") #{item.release_date}
                             div(class="inner-button")
                                 a.btn.btn-primary(href=`/movies/${item.movie_id}`) Book Now
-
         .container
             .row
                 div(class="col-xl-12")
@@ -39,14 +37,10 @@ block main
                         .image-box
                             .col-lg-2.col-md-3.col-sm-6
                                 .card(style="width: 12rem;")
-                                    img(src=item.movie_image, class="inner-image")
+                                    img(src=item.images, class="inner-image")
                                     .card-body
                                         div(class="movie-name")
                                             h2(class="inner-content") #{item.movie_title}
                                         div(class="movie-desc")
                                             span(class="inner-title") Đạo diễn:
                                             span(class="inner-content") #{item.director}
-        .container
-            .div-pagination                           
-                +pagination(pagination)
-

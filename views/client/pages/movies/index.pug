@@ -10,7 +10,7 @@ block main
                             h2(class="inner-title") Running Movies
                 each item in movies
                     if(item.status_name =="coming")
-                        div(class="col-lg-3 col-md-3 col-sm-6")
+                        div(class="col-lg-3 col-md-3 col-sm-6 movie")
                             div(class="running_movies")
                                 img(src=item.movie_image class="inner-movie")
                             div(class="movie-name")
@@ -33,7 +33,7 @@ block main
                     div(class="running_movies-title")
                             h2(class="inner-title")  Upcomming movies
                 each item in movies
-                    if(item.status_name=="upcoming")
+                    if(item.status_name =="upcoming")
                         .image-box
                             .col-lg-2.col-md-3.col-sm-6
                                 .card(style="width: 12rem;")
