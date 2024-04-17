@@ -1,0 +1,85 @@
+extends ../../layouts/default.pug
+block main
+    .container.py-5
+        .row.mb-4
+            .col-lg-8.mx-auto.text-center
+                h1.display-6 BOOKING SUMMARY
+        .row
+        .col-lg-6.mx-auto
+            form(action=`/booking/ticketShow/${movie.movie_id}`, method="POST")
+                .card
+                    .card-header
+                        .tab-content(style='font-size:15px')
+                            .row
+                                .col-lg-6
+                                    div
+                                        if(user)
+                                            span Tên: #{user.last_name}
+                                    div 
+                                        if(user)
+                                            span  SĐT.: #{user.phone}
+                                    div 
+                                        if (movie)
+                                            span  Phim:#{movie.movieName}
+                                    div
+                                        if(movie)
+                                            span Ghế: #{movie.seats}
+                                    div 
+                                        if(Date)
+                                            span Ngày thanh toán: #{Date}
+                                .col-lg-6
+                                    div 
+                                        if(user)
+                                            span Email: #{user.email}
+                                    div 
+                                        if(user)
+                                            span Địa chỉ : #{user.address}
+                                    div 
+                                        span Rạp chiếu: 1
+                                    div  
+                                        if (movie)
+                                            span  Thời gian chiếu:#{movie.time}
+                                    div 
+                                        if(Date)
+                                            span Ngày đặt: #{Date}
+                                input#movie(name='movieName' type='hidden' value=movie.movieName)
+                                input#time(name='showTime' type='hidden' value=movie.time)
+                                input#seat(name='seat' type='hidden' value=movie.seats)
+                                input#price(name='price' type='hidden' value=totalPayment)
+                            #credit-card.tab-pane.fade.show.active.pt-3
+                            .form-group
+                                label(for='username')
+                                    h6 Tên chủ thẻ
+                                input#card_name.form-control(type='text' name='card_name' placeholder='Tên chủ thẻ')
+                                #validatecardname
+                            .form-group
+                                label(for='cardNumber')
+                                    h6 Số thẻ
+                                .input-group
+                                    input#card_number.form-control(type='text' name='card_number' placeholder='Số thẻ')
+                                #validatecardnumber
+                            .row
+                                .col-sm-8
+                                    .form-group
+                                        label
+                                            span.hidden-xs
+                                                h6 Ngân hàng
+                                        .input-group
+                                            input#Bank_name.form-control(type='text' placeholder='Ngân hàng' name='BanK_name')
+                                        #validateeBankName
+                                .col-sm-4
+                                    .form-group.mb-4
+                                        label(data-toggle='tooltip' title='Three digit CV code on the back of your card')
+                                            h6 Mã xác nhận
+                                        input#cvv.form-control(type='number')
+                                #validatecvv
+                            .col-lg-6
+                                .seatCharts-container-payment
+                                    .front
+                                        if(totalPayment)
+                                            font(text-align='left') &nbsp;&nbsp;&nbsp;Tổng tiền: 
+                                            font(text-align='right') #{totalPayment}
+                            #msg
+                            .card-footer
+                                input.form-control.btn.btn-primary.btn-block.shadow-sm(type='submit',value='Xác nhận thanh toán',name='submit')
+                                
