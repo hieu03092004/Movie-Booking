@@ -1,33 +1,42 @@
 module.exports.registerPost=(req,res,next)=>{
     if(req.body.gender!="Male" &&  req.body.gender!="Female" && req.body.gender!="'Other" || !req.body.gender){
-        res.redirect("back")
-        return;
-    }
-    if(!req.body.firstName){
+        console.log("Error gender");
         res.redirect("back");
         return;
     }
+    if(!req.body.firstName){
+        console.log("Error firstName");
+        res.redirect("back");
+     
+        return;
+    }
     if(!req.body.lastName){
+        console.log("Error lastName");
         res.redirect("back");
         return;
     }
     if(!req.body.email){
+        console.log("Error email");
         res.redirect("back");
         return;
     }
     if(!req.body.password){
+        console.log("Error password");
         res.redirect("back");
         return;
     }
     if(!req.body.date_of_birth){
+        console.log("Error date_of_birth");
         res.redirect("back");
         return;
     }
     if(!req.body.userName){
+        console.log("Error userName");
         res.redirect("back");
         return;
     }
     if(!req.body.avatar){
+        console.log("Error avatar");
         res.redirect("back");
         return;
     }

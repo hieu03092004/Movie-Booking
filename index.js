@@ -1,11 +1,15 @@
 const express = require("express");
-const cookieParser = require('cookie-parser');
+
 require("dotenv").config();
 const routes = require("./routes/client/indexroutes.js");
 const adminRoutes = require("./routes/admin/indexroutes.js");
 const app = express();
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
+
+const flash=require('express-flash')
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const menu = require("./data/menu.js");
@@ -16,6 +20,17 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(express.static("public"));
+//flash
+app.use( cookieParser('keyboard cat'));
+app.use(session({
+    secret: '03092004',
+    resave: false,
+    saveUninitialized: true
+  }));
+  
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
+//end flash
 //dung de nhung file tinh vao
 
 app.locals.menu = menu;

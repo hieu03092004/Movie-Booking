@@ -10,7 +10,7 @@ block main
                     .card-header
                         center
                             img(src='/images/cgvlogo.png' width='30%')
-                            h6  Near Upansna Circle, Surendranagar
+                            h6  Nha Trang city
                         table
                             tbody
                                 tr
@@ -20,7 +20,7 @@ block main
                                 tr
                                     td
                                     if(ticketDetail)
-                                        td(style='padding: 1px 2px 1px 155px;') Date: #{ticketDetail.date}
+                                        td(style='padding: 1px 2px 1px 155px;') Date: #{ticketDetail.dayPayment}
                         hr
                         center
                             if(ticketDetail)
@@ -46,8 +46,8 @@ block main
                                     th(style='padding: 1px 105px;') Thành tiền
                                 tr  
                                     if(ticketDetail)
-                                        td #{ticketDetail.date}
-                                        td(style='padding: 12px 105px;') #{ticketDetail.price}
+                                        td #{ticketDetail.dayPayment}
+                                        td(style='padding: 12px 105px;') #{ticketDetail.totalPayment}
                         hr
                         h4 BOOKING DETAILS:
                         table
@@ -58,10 +58,10 @@ block main
                                     th(style='padding-left: 30px;') Thời gian
                                 tr
                                     td No. 1
-                                    if(showDate)
-                                        td(style='padding: 12px 2px 12px 60px') #{showDate}
                                     if(ticketDetail)
-                                        td(style='padding-left: 30px;')  #{ticketDetail.time}
+                                        td(style='padding: 12px 2px 12px 60px') #{ticketDetail.dayBooking}
+                                    if(ticketDetail)
+                                        td(style='padding-left: 30px;')  #{ticketDetail.showTime}
                                 tr
                                     th Ghế;
                                     th(style='padding: 0px 2px 0px 60px;') Tổng ghế
