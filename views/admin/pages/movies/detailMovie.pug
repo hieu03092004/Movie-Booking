@@ -8,7 +8,7 @@ block main
             .view
                 .info
                     .topInfo
-                        img(src=movie.movie_image, alt="Movie Poster")
+                        img(src=`/uploads/movies/${movie.movie_image}`, alt="Movie Poster")
                         h1 #{movie.movie_title}
                         button(onclick="handleOpenUpdateBtn(true)") Update
                     .details

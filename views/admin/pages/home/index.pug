@@ -12,7 +12,7 @@ block main
                     each user in topMovies
                         .listItem(key=user.movie_id)
                             .user
-                                img(src=user.movie_image, alt="")
+                                img(src=`/uploads/movies/${user.movie_image}`, alt="")
                                 .userTexts
                                     span.username=user.movie_title
                                     span.email=user.director

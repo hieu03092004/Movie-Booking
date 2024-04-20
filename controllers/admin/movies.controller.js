@@ -137,13 +137,18 @@ module.exports.create = (req, res) => {
     genre,
     movie_duration,
     movie_language,
-    movie_image,
     movie_desc,
     movie_trailer,
     age_limit,
     status_name,
     release_date,
   } = req.body;
+
+  if (!req.file || !req.file.filename) {
+    return res.status(400).json({ message: "Movie image is required" });
+  }
+
+  const movie_image = req.file.filename;
 
   const query = `INSERT INTO movies (movie_title, director, genre, movie_duration, movie_language, movie_image, movie_desc, movie_trailer, age_limit, status_name, release_date) VALUES (N'${movie_title}', N'${director}', N'${genre}', '${movie_duration}', N'${movie_language}', '${movie_image}', N'${movie_desc}', '${movie_trailer}', N'${age_limit}', N'${status_name}', '${release_date}')`;
 
@@ -152,7 +157,7 @@ module.exports.create = (req, res) => {
       console.error("Error querying database:", error);
       return res.status(500).json({ message: "Server error" });
     }
-    res.status(200).json({ message: "Movie added successfully" });
+    res.redirect("/admin/movies");
   });
 };
 

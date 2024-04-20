@@ -7,7 +7,7 @@ block main
             .view
                 .info
                     .topInfo
-                        img(src=user.avatar, alt="")
+                        img(src=`/uploads/users/${user.avatar}`, alt="Avatar")
                         h1 #{user.first_name + ' ' + user.last_name}
                         button(onclick="handleOpenUpdateBtn(true)") Update
                     .details

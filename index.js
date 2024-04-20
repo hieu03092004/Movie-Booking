@@ -1,9 +1,9 @@
 const express = require("express");
 
 const cookieParser = require("cookie-parser");
-const session = require('express-session');
+const session = require("express-session");
 
-const flash=require('express-flash');
+const flash = require("express-flash");
 require("dotenv").config();
 const routes = require("./routes/client/indexroutes.js");
 const adminRoutes = require("./routes/admin/index.routes.js");
@@ -24,13 +24,15 @@ app.set("view engine", "pug");
 //dung de nhung file tinh vao
 app.use(express.static("public"));
 //flash
-app.use( cookieParser('keyboard cat'));
-app.use(session({
-    secret: '03092004',
+app.use(cookieParser("keyboard cat"));
+app.use(
+  session({
+    secret: "Tritt66@gmail",
     resave: false,
-    saveUninitialized: true
-  }));
-  
+    saveUninitialized: true,
+  })
+);
+
 app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 //end flash

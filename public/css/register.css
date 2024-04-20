@@ -12,7 +12,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgb(130, 106, 251);
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 }
 .container {
   position: relative;
