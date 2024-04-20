@@ -16,28 +16,27 @@ header.header
 
     .container
         .row.align-items-center
-            .col-3
+            .col-2
                 .inner-logo
                     a(href="/")
                         img(src="/images/cgvlogo.png", alt="Logo") 
-
-            .col-3
-                form(
-                    action="/search"
-                    method="GET"
-                )
-                    div(class="form-group d-flex mb-0")
-                        input(
-                            type="text"
-                            placeholder="Nhập từ khóa"
-                            class="form-control"
-                            name="keyword"
-                            value=keyword
-                        )
-                        button(
-                            type="submit"
-                            class="btn btn-primary"
-                        ) Tìm
+            .col-4
+                .form-search
+                    form(
+                        action="/search"
+                        method="GET"
+                    )
+                        div(class="form-group d-flex mb-0 inner-form-search")
+                            img(src="/images/IconSearch.png", alt="icon-search") 
+                            input(
+                                type="text"
+                                placeholder="Nhập từ khóa"
+                                name="keyword"
+                                value=keyword
+                            )
+                            button(
+                                type="submit"
+                            ) Tìm kiếm
             .col-6
                 .inner-menu
                     ul

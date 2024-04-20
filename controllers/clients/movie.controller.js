@@ -1,14 +1,7 @@
 const db = require("../../config/connect");
 const sql = require('mssql');
-const config = {
-    user: 'sa',
-    password: '03092004',
-    server: 'localhost',
-    database: 'ApolloCinemaCuoiCungKhongDoiNua',
-    options: {
-        trustServerCertificate: true // Nếu bạn sử dụng SSL
-    }
-};
+const config = require('../../helper/configConnect');
+
 //GET allmovie
 module.exports.index = (req, res) => {
   db.request().query("SELECT * FROM movies", (error, results) => {
@@ -67,7 +60,13 @@ module.exports.detail = (req, res) => {
            const pool = new sql.ConnectionPool(config);
            pool.connect().then(() => {
               const requestShowtime = new sql.Request(pool);
-              const sqlQueryShowtime=`SELECT show_time FROM showtimes WHERE movie_id = '${movieId}' `;
+              const sqlQueryShowtime = `
+              SELECT show_date, STRING_AGG(show_time, ', ') AS show_times
+              FROM showtimes
+              WHERE movie_id = '${movieId}'
+              GROUP BY show_date;
+          `;
+          
               requestShowtime.query(sqlQueryShowtime, (error, results) => {
                   if (error) {
                       console.error("Loi insert du lieu", error);
@@ -78,19 +77,77 @@ module.exports.detail = (req, res) => {
                     res.redirect("back");
                     return;
                   }
-                  const showTime=results.recordsets[0][0].show_time;
-                  const showTimeDate = new Date(showTime);
-                  const hoursShowtime = showTimeDate.getHours().toString().padStart(2, '0'); // Lấy giờ và định dạng thành chuỗi có độ dài 2 ký tự
-                  const minutesShowtime = showTimeDate.getMinutes().toString().padStart(2, '0'); // Lấy phút và định dạng thành chuỗi có độ dài 2 ký tự
-                  const formattedShowTime = `${hoursShowtime}:${minutesShowtime}`;
-                 // Kết hợp giờ và phút thành chuỗi định dạng "HH:MM"
+                  const showtimes=results.recordsets[0];
+                
+                 
+                
+                  const showtimeMap = new Map();
+
+                  // Duyệt qua từng phần tử trong mảng result
+                  for (const item of  showtimes) {
+                      const showDate = item.show_date.toISOString().split('T')[0]; // Lấy ngày
+                      const showTimes = item.show_times.split(', '); // Tách chuỗi show_times thành mảng các showtime
+                  
+                      // Loại bỏ các showtime trùng nhau và lưu vào Map
+                      showtimeMap.set(showDate, [...new Set(showTimes)]);
+                  }
+                  
+                  // Chuyển Map thành mảng kết quả mới
+                  const formattedShowtimes = [...showtimeMap].map(([showDate, showTimes]) => ({
+                    show_date: showDate,
+                    show_times: showTimes.map(time => {
+                      const [hours, minutes, seconds] = time.split(':');
+                      return `${hours}:${minutes}`;
+                    }).join(', ')
+                  }));
+                  const dateString = formattedShowtimes[0].show_date;
+                  //res.send("OK");
+                  
+                  
+                 
+                  const dateParts = dateString.split('-');
+
+                  // Lấy năm và tháng từ mảng phần tử
+                  const year = dateParts[0];
+                  const month = dateParts[1];
+
+                   
+                  
+                 
+                  const formatDate = (dateString) => {
+                    const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+                    const date = new Date(dateString);
+                    const dayOfWeek = days[date.getDay()];
+                    const dayOfMonth = date.getDate();
+                  
+                    return { dayOfWeek, dayOfMonth };
+                };
+                  const resultShowtimes = [];
+                  
+                  for (let i = 0; i < formattedShowtimes.length; i++) {
+                    const formattedDate = formatDate(formattedShowtimes[i].show_date);
+                    const showTimes = formattedShowtimes[i].show_times.split(', ');
+                    const showDate=formattedShowtimes[i].show_date;                                                                
+                    const formattedShowtime = {
+                         // Lấy ngày
+                        rank:formattedDate.dayOfWeek , // Thêm key rank với giá trị index + 1
+                        day: formattedDate.dayOfMonth, // Tạo chuỗi day theo định dạng mong muốn
+                        showtimes: {
+                            showDate: showDate,
+                            showTimes: showTimes
+                        } // Sử dụng mảng showTimes đã tách
+                        
+                    };
+                    resultShowtimes.push(formattedShowtime);
+                
+                }
                     res.render("client/pages/movies/detail.pug", {
                       pageTitle: "Chi tiết phim",
                       movie:movie,
-                      show_time:formattedShowTime
+                      showTimes:resultShowtimes,
                        // Truyền dữ liệu phim cho view
                     });
-                });
+                  });
                 
             }).catch(error => {
                 console.error("Ket noi khong thanh cong", error);

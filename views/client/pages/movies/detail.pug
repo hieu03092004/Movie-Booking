@@ -1,52 +1,73 @@
 extends ../../layouts/default.pug
 block main
-   div(class="moviedetails")
-    div(class="container")
-        div(class="row")
-            if(movie.movie_image)
-                div(class="col-xl-5 col-lg-5 image")
-                    img(src=movie.movie_image,class="inner-image")
-            div(class="col-xl-7 col-lg-7 info")
-                table.content-table
-                    thead
-                        tr(style="text-align: center;") 
-                            th(colspan="2") Movie Details
-                    tbody
-                        tr
-                            td Phim
-                            if(movie. movie_title)
-                                td #{movie.movie_title}
-                        tr
-                            td Ngày phát hành
-                            if(movie. release_date)
-                                td #{movie. release_date}
-                        tr
-                            td Đạo diễn
-                            if(movie.director)
-                                td #{movie.director}
-                        tr
-                            td Thể loại
-                            if(movie.genre)
-                                td #{movie.genre}
-                        tr
-                            td Ngôn ngữ
-                            if(movie.movie_language)
-                                td #{movie.movie_language}
-                        tr
-                            td Trailer
-                            td
-                                a(data-toggle="modal", data-target="#tailer_modal9") View Trailer
-                div(class="time-book-ticket")
-                    h4 Show Book Ticket:
-                    br
-                    if(show_time)
-                        a(href=`/booking/${movie.movie_id}`) #{show_time}
-    div(class="container")
-        div(class="row")
-            div(class="col-xl-12 col-lg-12")
-                div(class="description")
-                    h4 Description
-                    if(movie.movie_desc)
-                        p
-                            | #{movie.movie_desc}
+    .sheduling
+        .title
+            span Lịch chiếu phim
+    .row
+        .col-12.show-time
+            span.month(style='top:-47px; left:47px;')
+                em 4
+                span 2024 April
+            .calendar
+                if(showTimes.length > 0) 
+                    
+                    each item in showTimes
+                        .inner-calendar
+                            span #{item.rank}
+                            p(style="padding-left:20px;font-weight:bold;font-size:14px") #{item.day}
+                            .time(style="margin-top:10px")
+                                if(item.showtimes.showTimes.length>0 && movie)
+                                    -var showDate=item.showtimes.showDate;
+                                    div Giờ chiếu
+                                    div(class="inner-showtime")
+                                        each showtime in item.showtimes.showTimes
+                                                div(style="padding-left:10px;margin-top:5px;font-size:14px;") 
+                                                    a(
+                                                    href=`/booking/showtime/${showDate}/${showtime}/${movie. movie_id}`
+                                                    style="color: #000000; text-decoration: none;"
+                                                ) #{showtime}
+           
+    div(class="moviedetails")
+        div(class="container")
+            div(class="row")
+                if(movie.movie_image)
+                    div(class="col-xl-5 col-lg-5 image")
+                        img(src=movie.movie_image,class="inner-image")
+                div(class="col-xl-7 col-lg-7 info")
+                    table.content-table
+                        thead
+                            tr(style="text-align: center;") 
+                                th(colspan="2") Movie Details
+                        tbody
+                            tr
+                                td Phim
+                                if(movie. movie_title)
+                                    td #{movie.movie_title}
+                            tr
+                                td Ngày phát hành
+                                if(movie. release_date)
+                                    td #{movie. release_date}
+                            tr
+                                td Đạo diễn
+                                if(movie.director)
+                                    td #{movie.director}
+                            tr
+                                td Thể loại
+                                if(movie.genre)
+                                    td #{movie.genre}
+                            tr
+                                td Ngôn ngữ
+                                if(movie.movie_language)
+                                    td #{movie.movie_language}
+                            tr
+                                td Trailer
+                                td
+                                    a(data-toggle="modal", data-target="#tailer_modal9") View Trailer
+                    div(class="description")
+                        h3(style="margin-bottom: 20px;font-size: 22px;color: #231f20;") Description
+                        if(movie.movie_desc)
+                            p(style="font-size: 14px;color: #666;line-height: 22px;")
+                                | #{movie.movie_desc}
+                    
           
+        

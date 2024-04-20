@@ -2,6 +2,9 @@
 img{
   max-width: 100%;
 }
+p{
+  margin-bottom: 0;
+}
 /* end root */
 /* header */
 .header {
@@ -48,6 +51,49 @@ img{
   }
   .home .container .inner-image{
     max-width: 100%;
+  }
+  .inner-form-search img{
+    width: 20px;
+    height: 20px;
+    margin: 0px 0px 0px 18px;
+  }
+  .inner-form-search{
+    height: 38px;
+    border: 1px solid rgb(221, 221, 227);
+    border-radius: 8px;
+    width: 100%;
+    align-items: center;
+  }
+  .inner-form-search input{
+    width: 78%;
+    border: 0px;
+    padding: 0px 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    flex: 1 1 0%;
+    outline: none;
+    border-right: 1px solid #CCCDCD;
+  }
+  .inner-form-search button{
+    border: none;
+    width: 92px;
+    height: 38px;
+    padding: 4px;
+    border-radius: 0px 8px 8px 0px;
+    background: transparent;
+    color: rgb(10, 104, 255);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    outline: none;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
   }
   /* end header */
   /* Footer */
@@ -135,14 +181,62 @@ img{
 }
  /* end home */
  /* movie details */
+ 
 td{
   display: table-cell;
   vertical-align: inherit;
 }
+
  .moviedetails{
   padding-top:20px;
   padding-bottom: 20px;
  }
+ .sheduling{
+    width: 100%;
+    height: 40px;
+    background: #dad2b4;
+ }
+ .sheduling .title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+ }
+ .sheduling .title span{
+  height: 40px;
+  line-height: 40px;
+  color: #000;
+  font-weight: 600;
+  font-size: 20px;
+  border-bottom: 2px solid #6F6247;
+ }
+ .calendar{
+  display: flex;
+  margin-top: 10px;
+}
+.inner-calendar{
+  width: 20%;
+}
+.show-time{
+  padding: 20px 150px;
+  background-color: #F9F6EC;
+}
+span.month em{
+  margin: 0 15px 0 0;
+  border-bottom: 2px solid #231f20;
+  font-family: 'Linux Libertine';
+  color: #231f20;
+  font-weight: bold;
+  font-size: 34px;
+}
+span.month span{
+  text-align: left;
+  font-weight: bold;
+  top: 0 !important;
+  color: #666;
+  font-size: 12px;
+}
+
  .moviedetails .inner-image{
   width: 100%;
   height: 500px;
@@ -198,12 +292,13 @@ td{
     color: #000000;
     display: inline-block;
     border-radius: 5px 5px 5px 5px;
+    margin-right: 10px;
  }
  .moviedetails .time-book-ticket a:hover{
     color: #007bff;
  }
 .moviedetails .description{
-  margin-top: 30px;
+  margin-top: 40px;
 }
  /* end movie details */
  /* about us */

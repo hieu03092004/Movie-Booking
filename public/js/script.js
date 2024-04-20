@@ -35,4 +35,15 @@ if(buttonsPagination){
 
 //end pagiantion
 
+//showAlert
+const showAlert=document.querySelector("[show-alert]");
+if(showAlert){
+    console.log(showAlert);
+}
+// Mảng các đối tượng chứa showdate và showtime
 
+
+  
+  // Định nghĩa một hàm để lọc các showtime theo showdate
+  
+  
