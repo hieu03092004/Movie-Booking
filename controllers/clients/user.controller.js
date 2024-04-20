@@ -1,16 +1,7 @@
-const { error } = require("console");
 const db = require("../../config/connect");
 const crypto = require('crypto');
 const sql = require('mssql');
-const config = {
-    user: 'sa',
-    password: '03092004',
-    server: 'localhost',
-    database: 'ApolloCinemaCuoiCungKhongDoiNua',
-    options: {
-        trustServerCertificate: true // Nếu bạn sử dụng SSL
-    }
-};
+const config = require('../../helper/configConnect');
 module.exports.register = async (req, res) => {
     // no se mac dinh di vao folder views
     res.render("client/pages/user/register.pug",{
@@ -38,10 +29,12 @@ module.exports.registerPost  = async (req, res) => {
     // Sử dụng hàm generateRandomString để tạo chuỗi ngẫu nhiên
     const tokenUser = generateRandomString(30);
     const sqlQueryEmail=`SELECT * FROM users WHERE  email  = '${email}'`;
+   
     db.request().query(sqlQueryEmail,(error,results)=>{
             if(error){
+                console.log("Error query Email");
                 res.redirect("back");
-                console.log("Error query Email")
+                
                 return;
             }
             if(results.recordsets[0][0]!=undefined){
@@ -75,6 +68,7 @@ module.exports.registerPost  = async (req, res) => {
                     res.status(500).json({ message: "Server error" });
                     return;
                 }
+             
                 const sqlQueryUser=`SELECT * FROM users WHERE tokenUser = '${tokenUser}' `;
                 db.request().query(sqlQueryUser,(error,results)=>{
                     if(error){
@@ -83,9 +77,11 @@ module.exports.registerPost  = async (req, res) => {
                     }
                     else{
                         if(results.recordsets[0][0]==undefined){
+                            console.log("Error query User");
                             res.redirect("back");
                             return;
                         }
+                        // res.send("OK");
                         const user_id=results.recordsets[0][0].user_id;
                         const sqlQueryInSertUser_roles = `
                         INSERT INTO user_roles (user_id, role_id)
@@ -127,11 +123,11 @@ module.exports.registerPost  = async (req, res) => {
                                         if(error){
                                             console.log("Error sqlQueryInSertUserAccounts")
                                             res.send("Error sqlQueryInSertUserAccounts");
+                                            return;
                                         }
-                                        else{
-                                            res.cookie("tokenUser",tokenUser);
-                                            res.redirect("/");
-                                        }
+                                        res.cookie("tokenUser",tokenUser);
+                                        req.flash("success","Đăng ký tài khoản thành công");
+                                        res.redirect("/");
                                     })
                                 }
                             })

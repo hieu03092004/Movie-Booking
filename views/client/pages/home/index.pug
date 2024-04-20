@@ -1,6 +1,13 @@
 extends ../../layouts/default.pug
 include ../../mixin/pagination.pug
 block main
+    - if (messages.success)
+        .message.info
+            div(
+                class="alert alert-success"
+                data-time="5000"
+                show-alert
+            ) #{messages.success}
     div(class="home")
         .container
             img(src="/images/theatre_2.jpg",class="inner-image")
