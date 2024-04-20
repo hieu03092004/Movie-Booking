@@ -5,19 +5,18 @@ mixin ChartBox(props)
         img(src=props.icon, alt="")
         span= props.title
       h1= props.number
-      a(href='/', style={ color: props.color }) View all
+      a(href='/admin', style={ color: props.color }) View all
     .chartInfo
       .chart
-        canvas(id=props.dataKey width="99%")
+        canvas(id=props.dataKey width="99%" height="100%")
       .texts
         span.percentage(style={ color: props.percentage < 0 ? "tomato" : "limegreen" })= props.percentage + '%'
-        span.duration this month
+        span.duration this week
 
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
 
     script.
         const ctx_#{props.dataKey} = document.getElementById('#{props.dataKey}');
-        //- let chartData = !{JSON.stringify(props.chartData)};
         let props_#{props.dataKey} = !{JSON.stringify(props)};
 
         new Chart(ctx_#{props.dataKey}, {
@@ -25,32 +24,17 @@ mixin ChartBox(props)
             data: {
             labels: props_#{props.dataKey}.chartData.map(data => data.name),
             datasets: [{
-                label: props_#{props.dataKey}.dataKey,
                 data: props_#{props.dataKey}.chartData.map(data => data.value),
                 borderWidth: 1,
                 pointRadius: 0,
                 pointHoverRadius: 0,
-                //- fill: true, // Điền màu cho các khu vực dưới đường biểu đồ
-            //- backgroundColor: 'rgba(255, 99, 132, 0.2)', // Màu sắc fill
-                borderColor: props_#{props.dataKey}.color, // Màu sắc của đường biểu đồ
-                borderWidth: 2, // Độ rộng của đường biểu đồ
-            //- borderRadius: 100, // Góc cong cho các góc của biểu đồ
-                tension: 0.4, // Điều chỉnh độ cong của đường biểu đồ
-            //- borderCapStyle: 'round', // Kiểu đầu mút của đường biểu đồ
-            //- borderJoinStyle: 'round', // Kiểu nối giữa các đoạn đường
-            //- borderDash: [5, 5], // Đường kẻ gạch nối các điểm
-            //- pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Màu sắc của điểm trên biểu đồ
-            //- pointBorderColor: 'rgba(255, 99, 132, 1)', // Màu sắc viền của điểm trên biểu đồ
-            //- pointBorderWidth: 2, // Độ dày viền của điểm
-            //- pointRadius: 4, // Đường kính của điểm
-            //- pointHoverBackgroundColor: 'rgba(255, 99, 132, 1)', // Màu sắc khi di chuột qua điểm
-            //- pointHoverBorderColor: 'rgba(255, 99, 132, 1)', // Màu sắc viền khi di chuột qua điểm
-            //- pointHoverBorderWidth: 2 // Độ dày viền khi di chuột qua điểm
+                borderColor: props_#{props.dataKey}.color, 
+                borderWidth: 2, 
+                tension: 0.4, 
             }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 scales: {
                     y: {
                       beginAtZero: true,
@@ -68,7 +52,6 @@ mixin ChartBox(props)
                         enabled: true,
                         intersect: false,
                         mode: 'index',
-                        //- position: 'point'
                     },
                 }
             }

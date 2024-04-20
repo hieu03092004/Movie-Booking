@@ -7,37 +7,31 @@ block main
     .home
         .box.box1
             .topBox
-                h1 Top Deals
+                h1 Top Movies
                 .list
-                    each user in topDealUsers
-                        .listItem(key=user.id)
+                    each user in topMovies
+                        .listItem(key=user.movie_id)
                             .user
-                                img(src=user.img, alt="")
+                                img(src=user.movie_image, alt="")
                                 .userTexts
-                                    span.username=user.username
-                                    span.email=user.email
-                            span.amount= user.amount
+                                    span.username=user.movie_title
+                                    span.email=user.director
+                            span.amount= user.average_rating + "★"
 
         .box.box2 
             +ChartBox(chartBoxUser)
         .box.box3
             +ChartBox(chartBoxProduct)
         .box.box4
-            //- div 4
             +PieChartBox(pieChartBox)
         .box.box5
             +ChartBox(chartBoxConversion)
         .box.box6
             +ChartBox(chartBoxRevenue)
         .box.box7
-            //- div div 7
             +BigChartBox(bigChartBox)
         .box.box8
-            //- div div 8
             +BarChartBox(barChartBoxVisit)
         .box.box9
-            //- div div 9
             +BarChartBox(barChartBoxRevenue)
-    
-            
 

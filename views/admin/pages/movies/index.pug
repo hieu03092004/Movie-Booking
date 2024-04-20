@@ -1,17 +1,19 @@
 extends ../../layouts/default.pug
 include ../../partials/dataTable.pug
-include ../../partials/Add.pug
+include ../../partials/add.pug
 
 block main
     .products
         .info
-            h1 Products
-            button(onclick="handleOpen(true)") Add New Products
-        +DataTable(productColumns, ProductRows)
-        +Add(productColumns, slug)
+            h1 Movies
+            button(onclick="handleOpen(true)") Add New Movies
+        +DataTable(movieColumns, movies)
+        +Add(movieColumns, slug)
 
         script.
             let slug = !{JSON.stringify(slug)};
+            let openAddButton = false;
+
             const handleOpen = (value) => {
                 openAddButton = value;
                 if (value) {

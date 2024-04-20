@@ -1,0 +1,80 @@
+const moviedata = [
+  {
+    checkboxSelection: true,
+    headerCheckboxSelection: true,
+    maxWidth: 50,
+    suppressHeaderMenuButton: true,
+  },
+  { field: "movie_id", headerName: "ID", type: "string", maxWidth: 100 },
+  //   {
+  //     field: "movie_image",
+  //     headerName: "Image",
+  //     maxWidth: 130,
+  //     suppressHeaderMenuButton: true,
+  //     sortable: false,
+  //   },
+  {
+    field: "movie_title",
+    headerName: "Title",
+    type: "string",
+  },
+  { field: "director", headerName: "Director", type: "string" },
+  { field: "genre", headerName: "Genre", type: "string" },
+  { field: "movie_language", headerName: "Language", type: "string" },
+  {
+    field: "age_limit",
+    headerName: "Age Limit",
+    type: "string",
+  },
+  {
+    field: "release_date",
+    headerName: "Release Date",
+    type: "string",
+  },
+  {
+    field: "action",
+    headerName: "Action",
+    suppressHeaderMenuButton: true,
+    sortable: false,
+  },
+  {
+    field: "movie_duration",
+    headerName: "Duration",
+    hide: true,
+    suppressHeaderMenuButton: true,
+    sortable: false,
+  },
+  {
+    field: "movie_trailer",
+    headerName: "Trailer",
+    hide: true,
+    suppressHeaderMenuButton: true,
+    sortable: false,
+    type: "string",
+  },
+  {
+    field: "movie_image",
+    headerName: "Image",
+    hide: true,
+    suppressHeaderMenuButton: true,
+    sortable: false,
+  },
+  {
+    field: "movie_desc",
+    headerName: "Description",
+    hide: true,
+    suppressHeaderMenuButton: true,
+    sortable: false,
+    type: "string",
+  },
+  {
+    field: "status_name",
+    headerName: "Status",
+    hide: true,
+    suppressHeaderMenuButton: true,
+    sortable: false,
+    type: "string",
+  },
+];
+
+module.exports = moviedata;

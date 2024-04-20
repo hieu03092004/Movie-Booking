@@ -2,20 +2,55 @@ mixin Add(columns, slug)
   .add
     .modal
       span.close(onclick="handleOpen(false)") X
-      h1= slug === 'users' ? 'Add New User' : slug === 'products' ? 'Add New Product' : 'Add New Item'
+      h1= slug === 'users' ? 'Add New User' : slug === 'movies' ? 'Add New Movies' : 'Add New Item'
       form(onSubmit="handleSubmit(event)")
-        each column in columns.filter(item => item.field !== 'id' && item.field !== 'action' && item.field !== 'createdAt' && !item.checkboxSelection)
+        each column in columns.filter(item => item.field !== 'movie_id' && item.field !== 'user_id' && item.field !== 'action' && item.field !== 'createdAt' && !item.checkboxSelection)
           .item
             label= column.headerName
-            if column.field === 'img'
-                <input type="file" name="file" id="file" class="inputfile"/>
-            else
-                input(type=column.type, placeholder=column.field)
+            case column.field
+              //- when 'img', 'movie_image'
+                input(type="file", name="file", id="file", class="inputfile", required)
+              when 'release_date'
+                input(type="date", name=column.field, placeholder=column.headerName, required)
+              when 'movie_duration'
+                input(type="time", name=column.field, placeholder=column.headerName, step="1", required)
+              when 'date_of_birth'
+                input(type="date", name=column.field, placeholder=column.headerName, required)
+              when 'gender'
+                select(name=column.field, required)
+                  option(value='Male') Male
+                  option(value='Female') Female
+                  option(value='Other') Other
+              default
+                input(type=column.type, placeholder=column.field, name=column.field, required)
         button(type="submit") Send
 
     script.
+      function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(document.querySelector('form'));
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            console.log('Form submitted!');
-        }
+        const data = {};
+        formData.forEach((value, key) => {
+          data[key] = value;
+        });
+
+        fetch(`/admin/${slug}/add`, {
+          method: 'POST',
+           headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }).then(response => {
+            if (response.ok) {
+              console.log('Form submitted successfully!');
+              document.querySelector('.modal').style.display = 'none';
+              location.reload();
+            } else {
+              console.error('Form submission failed.');
+            }
+          }).catch(error => {
+            console.error('Error:', error);
+          });
+            
+      }
