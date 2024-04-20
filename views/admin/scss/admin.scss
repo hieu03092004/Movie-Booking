@@ -442,6 +442,10 @@ a {
     font-weight: bold;
     gap: 10px;
     font-size: 24px;
+    img {
+      width: 250px;
+      object-fit: contain;
+    }
   }
   .icons {
     display: flex;

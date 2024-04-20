@@ -49,36 +49,6 @@ const menu = [
   },
   {
     id: 3,
-    title: "general",
-    listItems: [
-      {
-        id: 1,
-        title: "Elements",
-        url: "/admin",
-        icon: "/images/admin_img/element.svg",
-      },
-      {
-        id: 2,
-        title: "Notes",
-        url: "/admin",
-        icon: "/images/admin_img/note.svg",
-      },
-      {
-        id: 3,
-        title: "Forms",
-        url: "/admin",
-        icon: "/images/admin_img/form.svg",
-      },
-      {
-        id: 4,
-        title: "Calendar",
-        url: "/admin",
-        icon: "/images/admin_img/calendar.svg",
-      },
-    ],
-  },
-  {
-    id: 4,
     title: "Maintenance",
     listItems: [
       {
@@ -96,7 +66,7 @@ const menu = [
     ],
   },
   {
-    id: 5,
+    id: 4,
     title: "analytics",
     listItems: [
       {
@@ -110,6 +80,18 @@ const menu = [
         title: "Logs",
         url: "/admin",
         icon: "/images/admin_img/log.svg",
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "logout",
+    listItems: [
+      {
+        id: 1,
+        title: "Logout",
+        url: "/user/logout",
+        icon: "/images/admin_img/logout.svg",
       },
     ],
   },

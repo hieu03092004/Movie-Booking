@@ -279,6 +279,9 @@ a {
     font-weight: bold;
     gap: 10px;
     font-size: 24px; }
+    .navbar .logo img {
+      width: 250px;
+      object-fit: contain; }
   .navbar .icons {
     display: flex;
     align-items: center;

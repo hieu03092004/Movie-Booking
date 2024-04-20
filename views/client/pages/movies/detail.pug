@@ -32,7 +32,7 @@ block main
             div(class="row")
                 if(movie.movie_image)
                     div(class="col-xl-5 col-lg-5 image")
-                        img(src=movie.movie_image,class="inner-image")
+                        img(src=`/uploads/movies/${movie.movie_image}`,class="inner-image")
                 div(class="col-xl-7 col-lg-7 info")
                     table.content-table
                         thead

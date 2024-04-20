@@ -19,6 +19,18 @@ const userColumns = [
     type: "string",
   },
   { field: "last_name", headerName: "Last name", type: "string" },
+  {
+    field: "username",
+    headerName: "User name",
+    type: "string",
+    hide: true,
+  },
+  {
+    field: "password",
+    headerName: "Password",
+    type: "string",
+    hide: true,
+  },
   { field: "date_of_birth", headerName: "DOB", type: "string", hide: true },
   { field: "gender", headerName: "Gender", type: "string" },
   { field: "address", headerName: "Address", type: "string", hide: true },
