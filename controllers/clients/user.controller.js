@@ -1,16 +1,7 @@
-const { error } = require("console");
 const db = require("../../config/connect");
 const crypto = require('crypto');
 const sql = require('mssql');
-const config = {
-    user: 'sa',
-    password: '03092004',
-    server: 'localhost',
-    database: 'ApolloCinema',
-    options: {
-        trustServerCertificate: true // Nếu bạn sử dụng SSL
-    }
-};
+const config = require('../../helper/configConnect');
 module.exports.register = async (req, res) => {
     // no se mac dinh di vao folder views
     res.render("client/pages/user/register.pug",{

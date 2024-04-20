@@ -52,6 +52,49 @@ p{
   .home .container .inner-image{
     max-width: 100%;
   }
+  .inner-form-search img{
+    width: 20px;
+    height: 20px;
+    margin: 0px 0px 0px 18px;
+  }
+  .inner-form-search{
+    height: 38px;
+    border: 1px solid rgb(221, 221, 227);
+    border-radius: 8px;
+    width: 100%;
+    align-items: center;
+  }
+  .inner-form-search input{
+    width: 78%;
+    border: 0px;
+    padding: 0px 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    flex: 1 1 0%;
+    outline: none;
+    border-right: 1px solid #CCCDCD;
+  }
+  .inner-form-search button{
+    border: none;
+    width: 92px;
+    height: 38px;
+    padding: 4px;
+    border-radius: 0px 8px 8px 0px;
+    background: transparent;
+    color: rgb(10, 104, 255);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    outline: none;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+  }
   /* end header */
   /* Footer */
   .footer {

@@ -1,14 +1,7 @@
 const db = require("../../config/connect");
 const sql = require('mssql');
-const config = {
-    user: 'sa',
-    password: '03092004',
-    server: 'localhost',
-    database: 'ApolloCinema',
-    options: {
-        trustServerCertificate: true // Nếu bạn sử dụng SSL
-    }
-};
+const config = require('../../helper/configConnect');
+
 //GET allmovie
 module.exports.index = (req, res) => {
   db.request().query("SELECT * FROM movies", (error, results) => {
