@@ -1,5 +1,8 @@
 extends ../../layouts/default.pug
+include ../../mixin/alert.pug
 block main
+    if(success)
+        +alert-successTicket(5000,success)
     .container.py-5
         .row.mb-4
             .col-lg-8.mx-auto.text-center
@@ -10,7 +13,7 @@ block main
                     .card-header
                         center
                             img(src='/images/cgvlogo.png' width='30%')
-                            h6  Nha Trang city
+                            h6(style="margin-top:20px")  Nha Trang city
                         table
                             tbody
                                 tr

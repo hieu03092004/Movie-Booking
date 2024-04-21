@@ -38,12 +38,28 @@ if(buttonsPagination){
 //showAlert
 const showAlert=document.querySelector("[show-alert]");
 if(showAlert){
-    console.log(showAlert);
+    const time =parseInt(showAlert.getAttribute("data-time"));
+    const closeAlert=document.querySelector("[close-alert]");
+    setTimeout(()=>{
+       showAlert.classList.add("alert-hidden");
+    },time);
+    closeAlert.addEventListener("click",()=>{
+        showAlert.classList.add("alert-hidden");
+    })
 }
-// Mảng các đối tượng chứa showdate và showtime
-
-
-  
-  // Định nghĩa một hàm để lọc các showtime theo showdate
+//upload image
+//updload image
+const uploadImage=document.querySelector("[upload-image]");
+if(uploadImage){
+    const updloadImageInput=document.querySelector("[upload-image-input]");
+    const updloadImagePreview=document.querySelector("[upload-image-preview]");
+    updloadImageInput.addEventListener("change",(e)=>{
+       const file=e.target.files[0];
+       if(file){
+        updloadImagePreview.src=URL.createObjectURL(file);
+       }
+    })
+}
+//end upload image
   
   

@@ -55,7 +55,6 @@ module.exports.booking  = (req, res) => {
                                 priceArray[index]=120000;
                         });
                     }
-                    
                     res.render("client/pages/booking/index.pug",{
                         pageTitle:"Trang booking",
                         id:id,
@@ -148,6 +147,7 @@ module.exports.bookingPayment= (req, res) => {
                 const formattedTotalPayment = formatPrice(totalPayment);
                 // console.log(formattedTotalPayment);
                 // Hiển thị kết quả
+                
                 res.render("client/pages/booking/payment.pug",{
                     pageTitle:"Trang thanh Toán",
                     movie:movie,
@@ -165,6 +165,7 @@ module.exports.bookingPayment= (req, res) => {
     });
 };
 module.exports.bookingTicketShow  = (req, res) => {
+
     const movieName=req.body.movieName;
     const showTime=req.body.showTime;
     const totalPayment=req.body.price;
@@ -186,7 +187,7 @@ module.exports.bookingTicketShow  = (req, res) => {
             return;
         }
         if(results.recordsets[0][0]==undefined){
-            res.send("Error");
+            res.redirect("/user/login");
             return;
         }
         const userQuery=results.recordsets[0][0];
@@ -211,7 +212,8 @@ module.exports.bookingTicketShow  = (req, res) => {
             pageTitle:"Chi tiết vé",
             user:user,
             ticketDetail:ticketDetail,
+            success:"Đặt vé thành công"
         });
-      
+        
     });
 };

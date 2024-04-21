@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug
+include ../../mixin/alert.pug
 block main
+    +alert-success(3000)
     .container.py-5
         .row.mb-4
             .col-lg-8.mx-auto.text-center

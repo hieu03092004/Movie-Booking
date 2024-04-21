@@ -18,9 +18,10 @@ module.exports.registerPost  = async (req, res) => {
     const lastName=req.body.lastName;
     const phone=req.body.phone;
     const gender=req.body.gender;
-    const avatar=req.body.avatar;
+    var avatar=req.body.avatar;
     const userName=req.body.userName
     const password=req.body.password;
+    avatar=`/uploads/${req.file.filename}`;
     function generateRandomString(length) {
     return crypto.randomBytes(Math.ceil(length / 2))
             .toString('hex') // Chuyển buffer thành chuỗi hex
@@ -40,6 +41,7 @@ module.exports.registerPost  = async (req, res) => {
             if(results.recordsets[0][0]!=undefined){
                 //tuc la co email đó rồi
                 console.log("Email Exist");
+                req.flash("error","Email đã tồn tại");
                 res.redirect("back");
                 return;
             }
@@ -159,6 +161,7 @@ module.exports.loginPost = async (req, res) => {
             console.log("Error");
         else{
             if(results.recordsets[0][0]==undefined){
+                req.flash("error","Tài khoản hoặc mật khẩu không đúng");
                 res.redirect("back");
                 return;
             }
@@ -210,9 +213,12 @@ module.exports.loginPost = async (req, res) => {
                         const userID=results.recordsets[0][0].user_id;
                         const requestTokenUser= new sql.Request(pool);
                         const sqlQueryTokenUser = `
-                        SELECT tokenUser
-                        FROM users
-                        WHERE user_id = @user_id
+                            SELECT 
+                            ur.role_id,
+                            u.tokenUser
+                            FROM users u
+                            JOIN user_roles ur ON u.user_id = ur.user_id
+                            WHERE u.user_id = @user_id;          
                         `;
                         requestTokenUser.input('user_id', sql.BigInt,userID);
                         requestTokenUser.query(sqlQueryTokenUser, (error, results) => {
@@ -228,7 +234,15 @@ module.exports.loginPost = async (req, res) => {
                             }
                             const tokenUser=results.recordsets[0][0].tokenUser;
                             res.cookie("tokenUser",tokenUser);
-                            res.redirect("/");
+                            if (
+                                results.recordsets[0][0].role_id == 1 ||
+                                results.recordsets[0][0].role_id == 2
+                              ) {
+                                res.redirect("/admin");
+                                return;
+                              }
+                                req.flash("success","Đăng nhập thành công");
+                                res.redirect("/");
                         }) 
                     })
                     
@@ -259,6 +273,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
         else{
             
             if(results.recordsets[0][0]==undefined){
+                req.flash("error","Email không tồn tại");
                 res.redirect("back");
                 return;
             }
@@ -322,6 +337,7 @@ module.exports.resetPasswordPost = async (req, res) => {
                             res.status(500).json({ message: "Server error" });
                             return;
                         }
+                        req.flash("success","Đổi mật khẩu thành công");
                         res.redirect("/user/login");
                     });
                 }) 

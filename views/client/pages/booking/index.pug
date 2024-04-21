@@ -79,18 +79,6 @@ block main
                                                         input.larger(type='checkbox' name='seat[]' value='B9')
                                                     td
                                                         input.larger(type='checkbox' name='seat[]' value='B10')
-                                                tr
-                                                    td.line(style='width: 10%;color:white;') C
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='C6')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='C7')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='C8')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='C9')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='C10')
                         .seat_type
                               if(price) 
                                 p Giá : #{price[1]}
@@ -231,28 +219,28 @@ block main
                                 tr  
                                     if(movie)
                                         td(width='50%')
-                                            font(color='blue' size='5px' style='font-family: Shruti;') Movie:
-                                        td(bgcolor='79F9E2')
+                                            font(size='5px' ) Movie:
+                                        td
                                             center
-                                                font(size='5' style='font-family: Shruti; ') #{movie.movie_title}
+                                                font(size='5px') #{movie.movie_title}
                                 tr 
                                     if(movie.show_time)
                                         td(width='50%')
-                                            font(color='blue' size='5px' style='font-family: Shruti;') Time:
-                                        td(bgcolor='ECF68C')
+                                            font(size='5px') Time:
+                                        td
                                             center
-                                                font(size='5' style='font-family: Shruti;') #{movie.show_time}
+                                                font(size='5px') #{movie.show_time}
                                         
                                 tr
                                     td(width='50%')
-                                        font(color='blue' size='5px' style='font-family: Shruti;') Seat:
+                                        font(size='5px') Seat:
                                     td
-                                        input#selectedtext(type='text' name='seats' placeholder='selected checkboxs')
+                                        input#selectedtext(type='text' name='seats' placeholder='')
                                 tr
                                     td(width='50%')
-                                        font(color='blue' size='5px' style='font-family: Shruti;') Total Seat:
+                                        font(size='5px') Total Seat:
                                     td
-                                        input#count(type='text' name='totalseat' placeholder='Total Seats')
+                                        input#count(type='text' name='totalseat' placeholder='')
                             if(movie.movie_title)
                                 input(type='hidden' name='movie' value=`${movie.movie_title}`)
                             if(movie.show_time)
