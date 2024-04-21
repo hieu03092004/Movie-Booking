@@ -1,12 +1,12 @@
 const db = require("../../config/connect");
-const crypto = require('crypto');
-const sql = require('mssql');
-const config = require('../../helper/configConnect');
+const crypto = require("crypto");
+const sql = require("mssql");
+const config = require("../../helper/configConnect");
 module.exports.register = async (req, res) => {
-    // no se mac dinh di vao folder views
-    res.render("client/pages/user/register.pug",{
-        pageTitle:"Đăng ký tài khoản"
-    });
+  // no se mac dinh di vao folder views
+  res.render("client/pages/user/register.pug", {
+    pageTitle: "Đăng ký tài khoản",
+  });
 };
 module.exports.registerPost  = async (req, res) => {
     const firstName=req.body.firstName;
@@ -21,7 +21,7 @@ module.exports.registerPost  = async (req, res) => {
     var avatar=req.body.avatar;
     const userName=req.body.userName
     const password=req.body.password;
-    avatar=`/uploads/${req.file.filename}`;
+    avatar=`/uploads/users/${req.file.filename}`;
     function generateRandomString(length) {
     return crypto.randomBytes(Math.ceil(length / 2))
             .toString('hex') // Chuyển buffer thành chuỗi hex
@@ -53,103 +53,120 @@ module.exports.registerPost  = async (req, res) => {
                 VALUES (@firstName, @lastName, @formattedDateOfBirth, @gender, @address, @phone, @email, @avatar, @tokenUser)
             `;
 
-            const request = new sql.Request(pool);
-            request.input('firstName', sql.NVarChar, firstName);
-            request.input('lastName', sql.NVarChar, lastName);
-            request.input('formattedDateOfBirth', sql.Date, formattedDateOfBirth);
-            request.input('gender', sql.NVarChar, gender);
-            request.input('address', sql.NVarChar, address);
-            request.input('phone', sql.NVarChar, phone);
-            request.input('email', sql.NVarChar, email);
-            request.input('avatar', sql.NVarChar, avatar);
-            request.input('tokenUser', sql.VarChar, tokenUser);
+        const request = new sql.Request(pool);
+        request.input("firstName", sql.NVarChar, firstName);
+        request.input("lastName", sql.NVarChar, lastName);
+        request.input("formattedDateOfBirth", sql.Date, formattedDateOfBirth);
+        request.input("gender", sql.NVarChar, gender);
+        request.input("address", sql.NVarChar, address);
+        request.input("phone", sql.NVarChar, phone);
+        request.input("email", sql.NVarChar, email);
+        request.input("avatar", sql.NVarChar, avatar);
+        request.input("tokenUser", sql.VarChar, tokenUser);
 
-            request.query(sqlQuery, (error, results) => {
-                if (error) {
-                    console.error("Loi insert du lieu", error);
-                    res.status(500).json({ message: "Server error" });
-                    return;
-                }
-             
-                const sqlQueryUser=`SELECT * FROM users WHERE tokenUser = '${tokenUser}' `;
-                db.request().query(sqlQueryUser,(error,results)=>{
-                    if(error){
-                        console.log("Error");
-                        res.redirect("back");
-                    }
-                    else{
-                        if(results.recordsets[0][0]==undefined){
-                            console.log("Error query User");
-                            res.redirect("back");
-                            return;
-                        }
-                        // res.send("OK");
-                        const user_id=results.recordsets[0][0].user_id;
-                        const sqlQueryInSertUser_roles = `
+        request.query(sqlQuery, (error, results) => {
+          if (error) {
+            console.error("Loi insert du lieu", error);
+            res.status(500).json({ message: "Server error" });
+            return;
+          }
+
+          const sqlQueryUser = `SELECT * FROM users WHERE tokenUser = '${tokenUser}' `;
+          db.request().query(sqlQueryUser, (error, results) => {
+            if (error) {
+              console.log("Error");
+              res.redirect("back");
+            } else {
+              if (results.recordsets[0][0] == undefined) {
+                console.log("Error query User");
+                res.redirect("back");
+                return;
+              }
+              // res.send("OK");
+              const user_id = results.recordsets[0][0].user_id;
+              const sqlQueryInSertUser_roles = `
                         INSERT INTO user_roles (user_id, role_id)
                         VALUES (@user_id, @role_id)
                     `;
 
-                    const requestUserRoles = new sql.Request(pool);
-                    requestUserRoles.input('user_id', sql.BigInt, user_id); // Sử dụng user_id đã có
-                    requestUserRoles.input('role_id', sql.BigInt, 3); // Thay thế role_id bằng giá trị thực tế của role_id
+              const requestUserRoles = new sql.Request(pool);
+              requestUserRoles.input("user_id", sql.BigInt, user_id); // Sử dụng user_id đã có
+              requestUserRoles.input("role_id", sql.BigInt, 3); // Thay thế role_id bằng giá trị thực tế của role_id
 
-                    requestUserRoles.query(sqlQueryInSertUser_roles, (error, results) => {
-                            if (error) {
-                                console.error("Error inserting data into user_roles table:", error);
-                                res.status(500).json({ message: "Server error" });
-                                return;
-                            }
-                            const sqlQueryuserid =`SELECT * FROM user_roles WHERE user_id = ${user_id}`;
-                            db.request().query(sqlQueryuserid,(error,results)=>{
-                                if(error){
-                                    console.log("Error");
-                                    res.send("Error sqlQueryuserid");
-                                }
-                                else{
-                                    if(results.recordsets[0][0]==undefined){
-                                        res.redirect("back");
-                                        return;
-                                    }
-                                    const user_roles=results.recordsets[0][0];
-                                    const user_roleId=user_roles.user_role_id;
-                                    const sqlQueryInSertUserAccounts = `
+              requestUserRoles.query(
+                sqlQueryInSertUser_roles,
+                (error, results) => {
+                  if (error) {
+                    console.error(
+                      "Error inserting data into user_roles table:",
+                      error
+                    );
+                    res.status(500).json({ message: "Server error" });
+                    return;
+                  }
+                  const sqlQueryuserid = `SELECT * FROM user_roles WHERE user_id = ${user_id}`;
+                  db.request().query(sqlQueryuserid, (error, results) => {
+                    if (error) {
+                      console.log("Error");
+                      res.send("Error sqlQueryuserid");
+                    } else {
+                      if (results.recordsets[0][0] == undefined) {
+                        res.redirect("back");
+                        return;
+                      }
+                      const user_roles = results.recordsets[0][0];
+                      const user_roleId = user_roles.user_role_id;
+                      const sqlQueryInSertUserAccounts = `
                                     INSERT INTO  user_accounts (username,password,user_role_id)
                                     VALUES (@username, @password,@user_role_id)
                                     `;
-                                    const requestUserAccount = new sql.Request(pool);
-                                    requestUserAccount.input('username', sql.NVarChar, userName); // Sử dụng user_id đã có
-                                    requestUserAccount.input('password', sql.NVarChar, password); // T
-                                    requestUserAccount.input('user_role_id', sql.BigInt,user_roleId );
-                                    requestUserAccount.query(sqlQueryInSertUserAccounts,(error,results)=>{
-                                        if(error){
-                                            console.log("Error sqlQueryInSertUserAccounts")
-                                            res.send("Error sqlQueryInSertUserAccounts");
-                                            return;
-                                        }
-                                        res.cookie("tokenUser",tokenUser);
-                                        req.flash("success","Đăng ký tài khoản thành công");
-                                        res.redirect("/");
-                                    })
-                                }
-                            })
-                        });
-                   }
-                })
-            });
-            }).catch(error => {
-                console.error("Ket noi khong thanh cong", error);
-                res.status(500).json({ message: "Server error" });
+                      const requestUserAccount = new sql.Request(pool);
+                      requestUserAccount.input(
+                        "username",
+                        sql.NVarChar,
+                        userName
+                      ); // Sử dụng user_id đã có
+                      requestUserAccount.input(
+                        "password",
+                        sql.NVarChar,
+                        password
+                      ); // T
+                      requestUserAccount.input(
+                        "user_role_id",
+                        sql.BigInt,
+                        user_roleId
+                      );
+                      requestUserAccount.query(
+                        sqlQueryInSertUserAccounts,
+                        (error, results) => {
+                          if (error) {
+                            console.log("Error sqlQueryInSertUserAccounts");
+                            res.send("Error sqlQueryInSertUserAccounts");
+                            return;
+                          }
+                          res.cookie("tokenUser", tokenUser);
+                          req.flash("success", "Đăng ký tài khoản thành công");
+                          res.redirect("/");
+                        }
+                      );
+                    }
+                  });
+                }
+              );
+            }
+          });
         });
-    });
-}
+      })
+      .catch((error) => {
+        console.error("Ket noi khong thanh cong", error);
+        res.status(500).json({ message: "Server error" });
+      });
+  });
+};
 module.exports.login = async (req, res) => {
-    
-    res.render("client/pages/user/login.pug",{
-        pageTitle:"Đăng nhập tài khoản"
-    });
-
-    
+  res.render("client/pages/user/login.pug", {
+    pageTitle: "Đăng nhập tài khoản",
+  });
 };
 module.exports.loginPost = async (req, res) => {
    
@@ -175,24 +192,24 @@ module.exports.loginPost = async (req, res) => {
                     FROM user_accounts
                     WHERE account_id = @account_id
                 `;
-                const requestUserRole = new sql.Request(pool);
-                requestUserRole.input('account_id', sql.BigInt, accountId);
+          const requestUserRole = new sql.Request(pool);
+          requestUserRole.input("account_id", sql.BigInt, accountId);
 
-                requestUserRole.query(sqlQueryUserRole, (error, results) => {
-                    if (error) {
-                        console.error("Error querying user_role_id:", error);
-                        res.status(500).json({ message: "Server error" });
-                        return;
-                    }
+          requestUserRole.query(sqlQueryUserRole, (error, results) => {
+            if (error) {
+              console.error("Error querying user_role_id:", error);
+              res.status(500).json({ message: "Server error" });
+              return;
+            }
 
-                    // Kiểm tra nếu không có kết quả
-                    if (!results.recordsets[0][0]) {
-                        console.log("No user_role_id found for the provided account_id");
-                        return;
-                    }
-                    // Lấy user_role_id từ kết quả truy vấn
-                    const userRoleId = results.recordsets[0][0].user_role_id;
-                    const sqlQueryUserId = `
+            // Kiểm tra nếu không có kết quả
+            if (!results.recordsets[0][0]) {
+              console.log("No user_role_id found for the provided account_id");
+              return;
+            }
+            // Lấy user_role_id từ kết quả truy vấn
+            const userRoleId = results.recordsets[0][0].user_role_id;
+            const sqlQueryUserId = `
                     SELECT user_id
                     FROM user_roles
                     WHERE user_role_id = @user_role_id
@@ -257,11 +274,9 @@ module.exports.loginPost = async (req, res) => {
    
 };
 module.exports.forgotPassword = async (req, res) => {
-
-    res.render("client/pages/user/forgot-password.pug",{
-        pageTitle:"Lấy lại mật khẩu"
-    });
-    
+  res.render("client/pages/user/forgot-password.pug", {
+    pageTitle: "Lấy lại mật khẩu",
+  });
 };
 module.exports.forgotPasswordPost = async (req, res) => {
     const email=req.body.email;
@@ -283,50 +298,48 @@ module.exports.forgotPasswordPost = async (req, res) => {
     
 };
 module.exports.resetPassword = async (req, res) => {
-
-    res.render("client/pages/user/reset-password.pug",{
-        pageTitle:"Đổi mật khẩu"
-    });
-    
+  res.render("client/pages/user/reset-password.pug", {
+    pageTitle: "Đổi mật khẩu",
+  });
 };
 module.exports.resetPasswordPost = async (req, res) => {
-    const password=req.body.password;
-    const email=req.body.email;
-    const sqlQuery=`SELECT * FROM users WHERE email = '${email}'`;
-    db.request().query(sqlQuery,(error,results)=>{
-        if(error)
-            console.log("Error");
-        else{
-            
-            if(results.recordsets[0][0]==undefined){
-                res.redirect("back");
-                return;
-            }
-           
-            const pool = new sql.ConnectionPool(config);
-            pool.connect().then(() => {
-                const userId=results.recordsets[0][0].user_id;
-                const sqlQueryUserRoleId = `
+  const password = req.body.password;
+  const email = req.body.email;
+  const sqlQuery = `SELECT * FROM users WHERE email = '${email}'`;
+  db.request().query(sqlQuery, (error, results) => {
+    if (error) console.log("Error");
+    else {
+      if (results.recordsets[0][0] == undefined) {
+        res.redirect("back");
+        return;
+      }
+
+      const pool = new sql.ConnectionPool(config);
+      pool
+        .connect()
+        .then(() => {
+          const userId = results.recordsets[0][0].user_id;
+          const sqlQueryUserRoleId = `
                 SELECT user_role_id
                 FROM user_roles
                 WHERE user_id = @user_id
                 `;
-                const requestUserRoleID = new sql.Request(pool);
-                requestUserRoleID.input('user_id', sql.BigInt,userId);
-                requestUserRoleID.query(sqlQueryUserRoleId, (error, results) => {
-                    if (error) {
-                        console.error("Error querying UserRoleId:", error);
-                        res.status(500).json({ message: "Server error" });
-                        return;
-                    }
-                    // Kiểm tra nếu không có kết quả
-                    if (!results.recordsets[0][0]) {
-                        console.log("No UserRoleId for the provided user_id");
-                        return;
-                    }
-                    //truy van ra password
-                    const userRoleId=results.recordsets[0][0].user_role_id;
-                    const updateQuery = `
+          const requestUserRoleID = new sql.Request(pool);
+          requestUserRoleID.input("user_id", sql.BigInt, userId);
+          requestUserRoleID.query(sqlQueryUserRoleId, (error, results) => {
+            if (error) {
+              console.error("Error querying UserRoleId:", error);
+              res.status(500).json({ message: "Server error" });
+              return;
+            }
+            // Kiểm tra nếu không có kết quả
+            if (!results.recordsets[0][0]) {
+              console.log("No UserRoleId for the provided user_id");
+              return;
+            }
+            //truy van ra password
+            const userRoleId = results.recordsets[0][0].user_role_id;
+            const updateQuery = `
                     UPDATE user_accounts
                     SET password = '${password}'
                     WHERE user_role_id = ${userRoleId}
@@ -354,6 +367,6 @@ module.exports.resetPasswordPost = async (req, res) => {
  
 };
 module.exports.logout = async (req, res) => {
-    res.clearCookie("tokenUser");
-    res.redirect("/");
+  res.clearCookie("tokenUser");
+  res.redirect("/");
 };

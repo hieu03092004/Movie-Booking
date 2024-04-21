@@ -38,7 +38,11 @@ mixin DataTable(columns, rows)
               if (column.field === 'avatar') {
                 return {
                   ...column,
-                  cellRenderer: params => `<img src="${params.value || '/images/admin_img/noavatar.png'}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: flex; align-items:center;" />`
+                  //- cellRenderer: params => `<img src="${params.value || '/images/admin_img/noavatar.png'}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: flex; align-items:center;" />`
+                  cellRenderer: params => {
+                  const avatarPath = params.value ? `/uploads/users/${params.value}` : '/images/admin_img/noavatar.png';
+                  return `<img src="${avatarPath}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: flex; align-items:center;" />`;
+                }
                 };
               }
               if (column.field === 'action') {
