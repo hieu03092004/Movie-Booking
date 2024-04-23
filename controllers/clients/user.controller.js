@@ -18,10 +18,14 @@ module.exports.registerPost  = async (req, res) => {
     const lastName=req.body.lastName;
     const phone=req.body.phone;
     const gender=req.body.gender;
-    var avatar=req.body.avatar;
     const userName=req.body.userName
     const password=req.body.password;
-    avatar=`/uploads/users/${req.file.filename}`;
+    if (!req.file || !req.file.filename) {
+    return res.status(400).json({ message: "Avatar is required" });
+  }
+
+  const avatar = req.file.filename;
+  console.log(req.body, req.file, req.file.filename);
     function generateRandomString(length) {
     return crypto.randomBytes(Math.ceil(length / 2))
             .toString('hex') // Chuyển buffer thành chuỗi hex
