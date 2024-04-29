@@ -1,0 +1,65 @@
+extends ../../layouts/default.pug
+block main
+    .container(style='margin-top: 50px; margin-bottom: 60px;')
+        .row
+            .col-4
+                .profile-image
+                    .inner-image
+                        img(src='/uploads/users/user1.jpeg' alt='')
+                        if(user.fullName)
+                            span #{user.fullName} 
+                    .Total-spending
+                        span.one Tổng chi tiêu 2024
+                        span.two 0đ
+                    .support
+                        span.Hotline HOTLINE hỗ trợ:
+                        span.phone 1900 1000
+                    .support
+                        span.Hotline Email:
+                        span.phone ApolloCinema@gmail.com
+            .col-8
+                .profile-information
+                    .title
+                        h3 Thông tin cá nhân
+                    .information
+                        .row
+                            .col-6(style='margin-bottom: 30px;')
+                                label Họ và tên
+                                .input-info
+                                    i.fa-solid.fa-user
+                                    if(user.fullName)
+                                        input(type='text' value=user.fullName)
+                            .col-6(style='margin-bottom: 30px;')
+                                label Ngày sinh
+                                .input-info
+                                    i.fa-solid.fa-calendar
+                                    if(user.date_of_birth)
+                                        input(type='text' value=user.date_of_birth)
+                        .row
+                            .col-6(style='margin-bottom: 30px;')
+                                label Email
+                                .input-info
+                                    i.fa-solid.fa-envelope
+                                    if(user.email)
+                                        input(type='text' value=user.email)
+                            .col-6(style='margin-bottom: 30px;')
+                                label Số điện thoại
+                                .input-info
+                                    i.fa-solid.fa-mobile
+                                    if(user.phone)
+                                        input(type='text' value=user.phone)
+                        .row
+                            .col-6(style='margin-bottom: 30px;')
+                                label Tài khoản
+                                .input-info
+                                    i.fa-solid.fa-image-portrait
+                                    if(user.user_account)
+                                        input(type='text' value=user.user_account)
+                            .col-6(style='margin-bottom: 30px;')
+                                label Mật khẩu
+                                .input-info
+                                    i.fa-solid.fa-lock
+                                    if(user.user_password)
+                                        input(type='password' value=user.user_password)
+                            .col-3
+                                button(type='submit' name="Cập nhật") Cập nhật

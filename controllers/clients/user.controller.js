@@ -8,6 +8,51 @@ module.exports.register = async (req, res) => {
     pageTitle: "Đăng ký tài khoản",
   });
 };
+module.exports.profile = async (req, res) => {
+  // no se mac dinh di vao folder views
+  const user_id = req.params.id;
+  const sqlQuery = `SELECT 
+      ua.username AS user_account,
+      ua.password AS user_password,
+      u.user_id,
+      u.first_name,
+      u.last_name,
+      u.date_of_birth,
+      u.gender,
+      u.address,
+      u.phone,
+      u.email,
+      u.avatar,
+      u.tokenUser,
+      u.created_at AS user_created_at,
+      u.updated_at AS user_updated_at
+    FROM 
+      users u
+    JOIN 
+      user_accounts ua ON u.user_id = ua.user_role_id
+    WHERE 
+      u.user_id = '${user_id}';`;
+  db.request().query(sqlQuery, (error, results) => {
+    if (error) {
+        console.error("Error querying database:", error);
+        res.status(500).json({ message: "Server error" });
+        return;
+    }
+    const user = results.recordsets[0][0];
+     user.fullName=results.recordsets[0][0].first_name+" "+results.recordsets[0][0].last_name;
+     var dob=user.date_of_birth;
+     const day = String(dob.getDate()).padStart(2, '0');
+     const month = String(dob.getMonth() + 1).padStart(2, '0');
+     dob=`${day}/${month}/${dob.getFullYear()}`;
+     user.date_of_birth=dob;
+     res.render("client/pages/user/profile.pug", {
+      pageTitle: "Thông tin cá nhân",
+      user: user,
+    });
+    // Xử lý kết quả ở đây
+});
+  
+};
 module.exports.registerPost  = async (req, res) => {
     const firstName=req.body.firstName;
     const dateOfBirthString = req.body.date_of_birth;
@@ -18,10 +63,14 @@ module.exports.registerPost  = async (req, res) => {
     const lastName=req.body.lastName;
     const phone=req.body.phone;
     const gender=req.body.gender;
-    var avatar=req.body.avatar;
     const userName=req.body.userName
     const password=req.body.password;
-    avatar=`/uploads/users/${req.file.filename}`;
+    if (!req.file || !req.file.filename) {
+      return res.status(400).json({ message: "Avatar is required" });
+    }
+  
+    const avatar = req.file.filename;
+    console.log(req.body, req.file, req.file.filename);
     function generateRandomString(length) {
     return crypto.randomBytes(Math.ceil(length / 2))
             .toString('hex') // Chuyển buffer thành chuỗi hex
@@ -368,5 +417,6 @@ module.exports.resetPasswordPost = async (req, res) => {
 };
 module.exports.logout = async (req, res) => {
   res.clearCookie("tokenUser");
+  req.flash("success","Đăng xuất thành công");
   res.redirect("/");
 };

@@ -50,6 +50,14 @@ p{
     font-weight: 500;
     text-decoration: none;
   }
+  .slider{
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+  .slider .inner-image{
+    width: 100vw;
+    height: 400px;
+  } 
   .home .container .inner-image{
     max-width: 100%;
   }
@@ -199,13 +207,9 @@ td{
  .sheduling{
     width: 100%;
     height: 40px;
-    background: #dad2b4;
  }
  .sheduling .title{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
+  padding-left: 160px;
  }
  .sheduling .title span{
   height: 40px;
@@ -213,7 +217,6 @@ td{
   color: #000;
   font-weight: 600;
   font-size: 20px;
-  border-bottom: 2px solid #6F6247;
  }
  .calendar{
   display: flex;
@@ -305,6 +308,72 @@ span.month span{
  }
 .moviedetails .description{
   margin-top: 40px;
+  padding-left: 165px;
+  padding-top: 30px;
+}
+.calendar-1{
+    margin-left: 175px;
+    display: flex;
+    padding-bottom: 30px; 
+}
+.day{
+  background: none;
+  border: none;
+}
+.line{
+    width: 100%;
+    height: 2px;
+    background-color: #ddd;
+    margin-right: 185px;
+    margin-left: 175px;
+}
+.showtime_list{
+    width: 100%;
+    padding-left: 175px;
+    padding-bottom: 40px;
+}
+.showtime-cinema{
+    padding: 40px 0px;
+    border-bottom: 1px solid #ddd;
+    margin-right: 170px;
+}
+.cinema-name{
+  font-size: 20px;
+  color: #4A4F5A;
+}
+.theater_time{
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+.theater{
+  margin-right: 120px;
+
+}
+.time a{
+    color: #666;
+    font-size: 15px;
+    padding: 5px 30px;
+    border: 1px solid #ddd;
+    color: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+.time :hover{
+  background: #034ea2;
+  color: #E7EEF6;
+  text-decoration: none;
+  font-weight: 500;
+}
+.day-active{
+    background: #034ea2;
+    border-radius: 5px;
+    color: #E7EEF6;
+}
+iframe{
+    width: 100%;
+    height: 500px;
+    margin-bottom: 10px;
 }
  /* end movie details */
  /* about us */

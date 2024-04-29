@@ -3,9 +3,9 @@ header.header
         .col-12
             .inner-menu
                 ul  
-                    if(userName)
+                    if(userName  && id)
                         li
-                            a(href="/user/profile:id" style="color:#fff") Xin chào #{userName}
+                            a(href=`/user/profile/${id}` style="color:#fff") Xin chào #{userName}
                         li 
                             a(href="user/logout") Đăng xuất
                     else
