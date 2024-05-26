@@ -294,7 +294,7 @@ module.exports.registerPost  = async (req, res) => {
                           }
                           res.cookie("tokenUser", tokenUser);
                           req.flash("success", "Đăng ký tài khoản thành công");
-                          res.redirect("/");
+                          res.redirect("/user/login");
                         }
                       );
                     }
