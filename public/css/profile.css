@@ -30,15 +30,18 @@ body{
       border-bottom: 1px solid #ddd;
   }
   .Total-spending .one{
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     color: #4A4A4A;
-    margin-right: 80px;
+    width:60%;
+    display:inline-block;
   }
   .Total-spending .two{
-    font-size: 20px;
+    font-size: 18px;
     color: #E65A41;
     font-weight: 600;
+    width: 40%;
+    display: inline-block;
   }
   .support{
       padding-top: 30px;
@@ -49,12 +52,15 @@ body{
     color:#333333;
     font-size: 18px;
     font-weight: 600;
-  
+    width: 60%;
+    display: inline-block;
   }
   .support .phone{
-        color: #E65A41;
+      color: #E65A41;
       font-size: 18px;
       font-weight: 600;
+      width: 40%;
+      display: inline-block;
   }
   .profile-information{
     margin-left: 50px;
@@ -101,4 +107,17 @@ body{
       font-size: 16px;
       font-weight: 600;
   }
-  
+  .input-info input[type='password'] {
+    flex: 1; /* Điều chỉnh khoảng cách giữa input và biểu tượng */
+}
+.input-info input[type='text']{
+  flex: 1; /* Điều chỉnh khoảng cách giữa input và biểu tượng */
+}
+.input-info  a{
+    font-size: 14px;
+    font-weight: 500;
+    color: #F6B077;
+}
+.input-info  a:hover{
+    text-decoration: none;
+}

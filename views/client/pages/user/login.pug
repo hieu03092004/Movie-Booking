@@ -36,14 +36,16 @@ html
                         required
                         placeholder="Tên đăng nhập"
                     )
-                    input(
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Mật khẩu"
-                        required
-
+                    div(style="width: 100%;display:flex;align-items: center;position: relative;"
                     )
+                        input(
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Mật khẩu"
+                            required
+                        )
+                        i.fa-solid.fa-eye-slash(style="position: absolute;right: 10px;cursor: pointer;")
                     a(href="/user/password/forgot") Quên mật khẩu?
                     button(
                         type="submit"

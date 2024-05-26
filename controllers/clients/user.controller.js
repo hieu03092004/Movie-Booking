@@ -9,9 +9,18 @@ module.exports.register = async (req, res) => {
   });
 };
 module.exports.profile = async (req, res) => {
+  var user_account="";
+  var user_password="";
+  if(req.query.user_account){
+     user_account=req.query.user_account;
+  }
+   if(req.query.user_password){
+     user_password=req.query.user_password;
+   } 
   // no se mac dinh di vao folder views
   const user_id = req.params.id;
-  const sqlQuery = `SELECT 
+  const sqlQuery = `
+    SELECT 
       ua.username AS user_account,
       ua.password AS user_password,
       u.user_id,
@@ -25,13 +34,36 @@ module.exports.profile = async (req, res) => {
       u.avatar,
       u.tokenUser,
       u.created_at AS user_created_at,
-      u.updated_at AS user_updated_at
+      u.updated_at AS user_updated_at,
+      COALESCE(SUM(sp.price), 0) AS total_spent
     FROM 
       users u
     JOIN 
-      user_accounts ua ON u.user_id = ua.user_role_id
+      user_roles ur ON u.user_id = ur.user_id
+    JOIN 
+      user_accounts ua ON ur.user_role_id = ua.user_role_id
+    LEFT JOIN 
+      bookings b ON u.user_id = b.user_id AND YEAR(b.booking_date) = 2024
+    LEFT JOIN 
+      seat_prices sp ON b.seat_price_id = sp.seat_price_id
     WHERE 
-      u.user_id = '${user_id}';`;
+      u.user_id = ${user_id}
+    GROUP BY 
+      ua.username, 
+      ua.password, 
+      u.user_id, 
+      u.first_name, 
+      u.last_name, 
+      u.date_of_birth, 
+      u.gender, 
+      u.address, 
+      u.phone, 
+      u.email, 
+      u.avatar, 
+      u.tokenUser, 
+      u.created_at, 
+      u.updated_at;
+    `;
   db.request().query(sqlQuery, (error, results) => {
     if (error) {
         console.error("Error querying database:", error);
@@ -45,13 +77,80 @@ module.exports.profile = async (req, res) => {
      const month = String(dob.getMonth() + 1).padStart(2, '0');
      dob=`${day}/${month}/${dob.getFullYear()}`;
      user.date_of_birth=dob;
-     res.render("client/pages/user/profile.pug", {
-      pageTitle: "Thông tin cá nhân",
-      user: user,
+     if(user_account!=""){
+        const sqlQueryAccountID=`SELECT ua.account_id, ua.username, ua.password
+        FROM users AS u
+        JOIN user_roles AS ur ON u.user_id = ur.user_id
+        JOIN user_accounts AS ua ON ur.user_role_id = ua.user_role_id
+        WHERE u.user_id = '${user_id}'`;
+        db.request().query(sqlQueryAccountID, (error, results) => {
+          if (error) {
+              console.error("Error querying database:", error);
+              res.status(500).json({ message: "Server error" });
+              return;
+          }
+          const account_id=results.recordsets[0][0].account_id;
+          const updateQuery = `
+                    UPDATE user_accounts
+                    SET username= '${user_account}'
+                    WHERE account_id = ${account_id}
+                    `;
+              db.request().query(updateQuery, (error, results) => {
+                if (error) {
+                    console.error("Error querying database:", error);
+                    res.status(500).json({ message: "Server error" });
+                    return;
+                }
+                  req.flash("success","Thay đổi tài khoản thành công");
+                  res.redirect("/user/login");
+                  return;
+                // Xử lý kết quả ở đây
+            }); 
+          // Xử lý kết quả ở đây
+      });
+      
+     }
+     if(user_password!=""){
+      const sqlQueryAccountID=`SELECT ua.account_id, ua.username, ua.password
+      FROM users AS u
+      JOIN user_roles AS ur ON u.user_id = ur.user_id
+      JOIN user_accounts AS ua ON ur.user_role_id = ua.user_role_id
+      WHERE u.user_id = '${user_id}'`;
+      db.request().query(sqlQueryAccountID, (error, results) => {
+        if (error) {
+            console.error("Error querying database:", error);
+            res.status(500).json({ message: "Server error" });
+            return;
+        }
+        const account_id=results.recordsets[0][0].account_id;
+        const updateQuery = `
+                  UPDATE user_accounts
+                  SET password= '${user_password}'
+                  WHERE account_id = ${account_id}
+                  `;
+            db.request().query(updateQuery, (error, results) => {
+              if (error) {
+                  console.error("Error querying database:", error);
+                  res.status(500).json({ message: "Server error" });
+                  return;
+              }
+              req.flash("success","Thay đổi mật khẩu thành công");
+              res.redirect("/user/login");
+              return;
+              // Xử lý kết quả ở đây
+          }); 
+        // Xử lý kết quả ở đây
     });
-    // Xử lý kết quả ở đây
-});
-  
+    
+   }
+    if(user_account=="" && user_password==""){
+      res.render("client/pages/user/profile.pug", {
+        pageTitle: "Thông tin cá nhân",
+        user: user,
+        user_id: user_id,
+      });
+    }
+  }); 
 };
 module.exports.registerPost  = async (req, res) => {
     const firstName=req.body.firstName;
@@ -70,7 +169,7 @@ module.exports.registerPost  = async (req, res) => {
     }
   
     const avatar = req.file.filename;
-    console.log(req.body, req.file, req.file.filename);
+    // console.log(req.body, req.file, req.file.filename);
     function generateRandomString(length) {
     return crypto.randomBytes(Math.ceil(length / 2))
             .toString('hex') // Chuyển buffer thành chuỗi hex

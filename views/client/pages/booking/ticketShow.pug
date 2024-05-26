@@ -36,7 +36,7 @@ block main
                                     th(style='padding: 1px 105px;') Địa chỉ
                                 tr
                                     if(user.last_name && user.first_name)
-                                        td #{user.last_name} #{user.first_name}
+                                        td #{user.first_name} #{user.last_name}
                                     if(user.address)
                                         td(style='padding: 12px 105px;') #{user.address}
                                 tr
@@ -71,7 +71,7 @@ block main
                                     if(ans.show_time)
                                         td(style='padding-left: 30px;') #{ans.show_time}
                                 tr
-                                    th Ghế;
+                                    th Ghế
                                     th(style='padding: 0px 2px 0px 60px;') Tổng ghế
                                 tr
                                     if(ans.seat_name)

@@ -5,18 +5,19 @@ block main
             .col-4
                 .profile-image
                     .inner-image
-                        img(src='/uploads/users/user1.jpeg' alt='')
+                        img(src=`/uploads/users/${user.avatar}` alt='')
                         if(user.fullName)
                             span #{user.fullName} 
                     .Total-spending
                         span.one Tổng chi tiêu 2024
-                        span.two 0đ
+                        if(user.total_spent)
+                            span.two #{user.total_spent} VND
                     .support
-                        span.Hotline HOTLINE hỗ trợ:
+                        span.Hotline HOTLINE hỗ trợ
                         span.phone 1900 1000
                     .support
-                        span.Hotline Email:
-                        span.phone ApolloCinema@gmail.com
+                        span.Hotline(style="width:20%") Email
+                        span.phone(style="width:80%") ApolloCinema@gmail.com
             .col-8
                 .profile-information
                     .title
@@ -28,38 +29,40 @@ block main
                                 .input-info
                                     i.fa-solid.fa-user
                                     if(user.fullName)
-                                        input(type='text' value=user.fullName)
+                                        input(type='text' value=user.fullName readonly)
                             .col-6(style='margin-bottom: 30px;')
                                 label Ngày sinh
                                 .input-info
                                     i.fa-solid.fa-calendar
                                     if(user.date_of_birth)
-                                        input(type='text' value=user.date_of_birth)
+                                        input(type='text' value=user.date_of_birth readonly)
                         .row
                             .col-6(style='margin-bottom: 30px;')
                                 label Email
                                 .input-info
                                     i.fa-solid.fa-envelope
                                     if(user.email)
-                                        input(type='text' value=user.email)
+                                        input(type='text' value=user.email readonly)
                             .col-6(style='margin-bottom: 30px;')
                                 label Số điện thoại
                                 .input-info
                                     i.fa-solid.fa-mobile
                                     if(user.phone)
-                                        input(type='text' value=user.phone)
+                                        input(type='text' value=user.phone readonly)
                         .row
                             .col-6(style='margin-bottom: 30px;')
                                 label Tài khoản
                                 .input-info
                                     i.fa-solid.fa-image-portrait
                                     if(user.user_account)
-                                        input(type='text' value=user.user_account)
+                                        input(type='text' value=user.user_account id='user_account')
+                                    a(href=user_id id="changeUserAccount") Thay đổi
                             .col-6(style='margin-bottom: 30px;')
                                 label Mật khẩu
                                 .input-info
                                     i.fa-solid.fa-lock
                                     if(user.user_password)
-                                        input(type='password' value=user.user_password)
+                                        input(type='password' value=user.user_password id='user_password')
+                                    a(href=user_id id="changePassword") Thay đổi
                             .col-3
                                 button(type='submit' name="Cập nhật") Cập nhật

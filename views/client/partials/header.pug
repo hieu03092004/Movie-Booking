@@ -32,6 +32,7 @@ header.header
                                 type="text"
                                 placeholder="Nhập từ khóa"
                                 name="keyword"
+                                style="background: #F7F7F7;"
                                 value=keyword
                             )
                             button(
@@ -42,8 +43,23 @@ header.header
                     ul
                         li
                             a(href="/") Trang chủ
-                        li
+                        li(class="sub-menu")
                             a(href="/movies") All movie
+                            ul
+                                li
+                                    a(href="/movies") Thể loại
+                                    ul  
+                                        if(genres)
+                                            each item in genres
+                                                li
+                                                    a(href=`/movies/?genre=${item.genre}`) #{item.genre}
+                                li
+                                    a(href="#") Ngôn ngữ
+                                    ul  
+                                        if(movie_languages)
+                                            each item in movie_languages
+                                                li
+                                                    a(href=`/movies/?language=${item.movie_language}`) #{item.movie_language}   
                         li
                             a(href="/about") About Us
                         li

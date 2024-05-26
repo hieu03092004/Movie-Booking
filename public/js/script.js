@@ -1,4 +1,4 @@
-// console.log("ok");
+
 //booking
 $(document).ready(function(){
     $('.larger').click(function(){
@@ -18,7 +18,7 @@ $(document).ready(function(){
             document.getElementById('notvalid').innerHTML="Maximun seat seleact 8"
     return false;
         }
-});
+    });
 });
 //pagination
 const buttonsPagination=document.querySelectorAll("[button-pagination]");
@@ -47,7 +47,6 @@ if(showAlert){
         showAlert.classList.add("alert-hidden");
     })
 }
-//upload image
 //updload image
 const uploadImage=document.querySelector("[upload-image]");
 if(uploadImage){
@@ -61,10 +60,26 @@ if(uploadImage){
     })
 }
 //end upload image
-//button showDate
+// //button showDate
 const buttonShowDate=document.querySelectorAll("[button-showDate]");
 if(buttonShowDate.length>0){
     let url=new URL(window.location.href);
+    const cinema=document.querySelector("#cinema");
+    let cinema_name="";
+        if(cinema){
+            cinema.onchange=function(){
+                cinema_name=cinema.value;
+                console.log(cinema_name);
+            }
+        }
+    const theater=document.querySelector("#theater");
+    let theater_name="";
+    if(theater){
+        theater.onchange=function(){
+            theater_name=theater.value;
+            console.log(theater_name);
+        }
+    }
   buttonShowDate.forEach(button=>{
     button.addEventListener("click",()=>{
         function convertDateFormat(dateString) {
@@ -80,31 +95,88 @@ if(buttonShowDate.length>0){
         
         const showDate=button.getAttribute("button-showDate");
         const convertedDate = convertDateFormat(showDate);
-        if(showDate ){
+        //ALL
+        if(showDate && cinema_name=="" && theater_name==""){
             url.searchParams.set("showDate",convertedDate);
+            url.searchParams.delete("cinema");
+            url.searchParams.delete("theater");
+        }    
+        else if(showDate && cinema_name!="" && theater_name==""){
+            url.searchParams.set("showDate",convertedDate);
+            url.searchParams.set("cinema",cinema_name);
+        }
+        else if(showDate && cinema_name!="" && theater_name!=""){
+            url.searchParams.set("showDate",convertedDate);
+            url.searchParams.set("cinema",cinema_name);
+            url.searchParams.set("theater",theater_name);
+        }
+        else if(showDate && cinema_name=="" && theater_name!=""){
+            url.searchParams.set("showDate",convertedDate);
+            url.searchParams.set("theater",theater_name);
         }
         window.location.href=url.href;
-        
+      
     })
   })
 }
-//end button showDate
-//slider
-let slideIndex = 0;
-showSlides();
-function showSlides() {
-    let slides=document.querySelectorAll('.slider img');
-    for(let i=0;i<slides.length;i++){
-        slides[i].style.display="none";
-     // Change image every 2 seconds
-  }
-    slideIndex++;
-    if(slideIndex>slides.length){
-        slideIndex=1;
+ //end button showDate
+
+//  //Change image every 2 seconds
+ //Profile
+const inputUserAccount=document.querySelector("#user_account");
+if(inputUserAccount){
+    const link=document.querySelector("#changeUserAccount");
+    const hrefValue = link.getAttribute("href");
+    
+    // Tách lấy số từ href
+    const number = parseInt(hrefValue);
+    inputUserAccount.onchange=function(){
+        link.href=`/user/profile/${number}/?user_account=${inputUserAccount.value}`;
     }
-    slides[slideIndex-1].style.display="block";
-    setTimeout(showSlides, 3000);
 }
- // Change image every 2 seconds
-  
-  
+const inputUserPassword=document.querySelector("#user_password");
+if(inputUserPassword){
+    const link=document.querySelector("#changePassword");
+    const hrefValue = link.getAttribute("href");
+    // Tách lấy số từ href
+    const number = parseInt(hrefValue);
+    inputUserPassword.onchange=function(){
+        link.href=`/user/profile/${number}/?user_password=${inputUserPassword.value}`;
+    }
+}
+// //showpassword
+const showPassword=document.querySelector("#password");
+if(showPassword){
+    const type=showPassword.type;
+    const buttonShowPassword=document.querySelector('.fa-eye-slash');
+    if(buttonShowPassword){
+        buttonShowPassword.addEventListener("click",()=>{
+            if(type=="password")
+            {
+                showPassword.type="text";
+            }
+            else
+            {
+                showPassword.type="password";
+            }
+        });
+    }
+}
+const newPassword=document.querySelector("#newPassword");
+if(newPassword){
+    const type=newPassword.type;
+    const buttonShowPassword=document.querySelector('.fa-eye-slash');
+    if(buttonShowPassword){
+        buttonShowPassword.addEventListener("click",()=>{
+            if(type=="password")
+            {
+                newPassword.type="text";
+            }
+            else
+            {
+                newPassword.type="password";
+            }
+        });
+    }
+}
+

@@ -13,7 +13,7 @@ block main
             div(class="row")
                 if(movie.movie_image)
                     div(class="col-xl-5 col-lg-5 image")
-                        img(src=`${movie.movie_image}`,class="inner-image")
+                        img(src=`/uploads/movies/${movie.movie_image}`, class="inner-image")
                 div(class="col-xl-7 col-lg-7 info")
                     table.content-table
                         thead
@@ -72,16 +72,41 @@ block main
                             span(style="width:100%;display:inline-block") #{item.rank}
                             span #{item.date}
             .form-group(style="margin-left: 20px;")
-                select(name="type" class="form-control")
-                    option(value="") Toàn quốc
-                    option(value="HN") Hà Nội
-                     option(value="NT") Nha Trang
+                select(name="type" class="form-control" id="cinema")
+                    if(cinema_name === "")
+                        option(value="") Toàn quốc
+                        option(value="Apolo Hà Nội") Hà Nội
+                        option(value="Apolo Nha Trang") Nha Trang
+                    else if(cinema_name === "Apolo Hà Nội")
+                        option(value="Apolo Hà Nội" selected) Hà Nội
+                        option(value="") Toàn quốc
+                        option(value="Apolo Nha Trang") Nha Trang
+                    else if(cinema_name === "Apolo Nha Trang")
+                        option(value="Apolo Nha Trang" selected) Nha Trang
+                        option(value="") Toàn quốc
+                        option(value="Apolo Hà Nội") Hà Nội
             .form-group(style="margin-left: 20px;")
-                select(name="type" class="form-control")
-                    option(value="") Tất cả các rạp
-                    option(value="1") Rạp 1
-                    option(value="2") Rạp 2
-                    option(value="3") Rạp 3  
+                select(name="type" class="form-control" id="theater")
+                    if(theater_name === "")
+                        option(value="") Tất cả các rạp
+                        option(value="Theater 1") Rạp 1
+                        option(value="Theater 2") Rạp 2
+                        option(value="Theater 3") Rạp 3
+                    else if(theater_name === "Theater 1")
+                        option(value="Theater 1" selected) Rạp 1
+                        option(value="Theater 2") Rạp 2
+                        option(value="Theater 3") Rạp 3
+                        option(value="") Tất cả các rạp
+                    else if(theater_name === "Theater 2")
+                        option(value="Theater 2" selected) Rạp 2
+                        option(value="Theater 1") Rạp 1
+                        option(value="Theater 3") Rạp 3
+                        option(value="") Tất cả các rạp
+                    else if(theater_name === "Theater 3")
+                        option(value="Theater 3" selected) Rạp 3
+                        option(value="Theater 1") Rạp 1
+                        option(value="Theater 2") Rạp 2
+                        option(value="") Tất cả các rạp
         div(class="line" style="width: 100%;height: 1px;background-color: #e0e0e0")
         .showtime_list
             if(showtimes)
@@ -92,5 +117,31 @@ block main
                             span(class="theater") #{item.theater_name}
                             .time
                                 a(href=`/booking/showtime/theater/${item.showtime_id}/${item.theater_id}`) #{item.show_time}
-          
-        
+        .movie_feedback(style="padding-left:175px;")
+            h1(style="line-height: 40px;color: #000;font-size: 20px;font-weight: 600;margin:0;margin-bottom:15px") Đánh giá phim
+            form(action=`/movies/${movie.movie_id}` class="form-group d-flex flex-nowrap align-items:center Evaluate_movie" method="POST" style="margin:0;")
+                div(class="rating")
+                    div 
+                        span Rating
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    input(type="text", name="rating", id="rating",style="border:none;outline:none;text-align:center;")
+                div(class="input-feedback" style="width:60%")
+                    input(type="text", name="input_feedback", id="input_feedback",placeholder="Vui lòng nhập đánh giá phim")
+                button(type="submit") Bình luận
+            div(class="horizone")
+            if(feedbacks)
+                each item in feedbacks
+                    .customer_feedback
+                        .inner_title
+                            span( class="one" style="margin-right:5px;") Khách
+                            -for(let i=0;i<item.rating;i++)
+                                i.fa-solid.fa-star
+                            span(style="isplay: inline-block;margin-left: 12px;line-height: 18px;vertical-align: top;color: #231f20;font-weight: bold;") #{item.rating}
+                        .comment
+                            p #{item.comment}
+                        .date
+                            span #{item.feedback_date}

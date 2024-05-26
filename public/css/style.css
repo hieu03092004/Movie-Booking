@@ -50,6 +50,38 @@ p{
     font-weight: 500;
     text-decoration: none;
   }
+  .sub-menu{
+    position: relative;
+    z-index:999;
+  }
+  .sub-menu ul{
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #fff;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 180px;
+    display: none;
+  }
+  .sub-menu ul li{
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .sub-menu:hover > ul{
+    display: block;
+  }
+  .sub-menu ul li{
+    position: relative;
+  }
+  .sub-menu ul li ul{
+    right: 100%;
+    top:0;
+  }
+  .sub-menu ul li:hover > ul{
+    display: block;
+  }
   .slider{
     margin-bottom: 40px;
     margin-top: 10px;
@@ -105,6 +137,38 @@ p{
     justify-content: center;
   }
   /* end header */
+  /* pagination */
+  .page-item.active .page-link {
+    z-index: 3;
+    background: #231f20;
+    color: #fff;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  .page-link{
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 10px;
+    border: none;
+    color:  #666;
+   background-color: #F7F7F7;
+  }
+  .page-item:last-child .page-link{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .page-item:first-child .page-link {
+    border-top-left-radius:0px;
+    border-bottom-left-radius: 0px;
+  }
+  .page-link:hover{
+    
+    background: #231f20;
+    color: #fff;
+    border-color: none;
+  }
   /* Footer */
   .footer {
     background: #333;
@@ -168,10 +232,12 @@ p{
 }
 .home .image-box{
   margin-bottom: 30px;
+  
 }
 .home .image-box .card{
   border: none;
   height: 400px;
+  background: #F7F7F7;
 }
 .home .image-box .card img{
   height: 272px;
@@ -374,6 +440,105 @@ iframe{
     width: 100%;
     height: 500px;
     margin-bottom: 10px;
+}
+.movie_feedback{
+  padding-left: 175px;
+    width: 100%;
+}
+.movie_feedback h1{
+  line-height: 40px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+}
+.movie_feedback .customer_feedback{
+  border-bottom: 1px solid #e5e5e5;
+  padding: 30px 0px;
+  width: 100%;
+  padding-left: 30px;
+}
+.movie_feedback .customer_feedback .inner_title{
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.movie_feedback .customer_feedback .inner_title .one{
+    width: 56px;
+    height: 20px;
+    margin-right: 6px;
+    line-height: 20px;
+    background: #33373a;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    vertical-align: top;
+}
+.movie_feedback .customer_feedback .comment{
+    margin-bottom: 20px;
+    color: #231f20;
+    font-size: 14px;
+    line-height: 18px;
+    word-break: break-all;
+}
+.movie_feedback .customer_feedback .date{
+    color: #666666;
+    font-size: 14px;
+}
+.Evaluate_movie .rating{
+    height: 101px;
+    text-align: center;
+    background: #fff;
+    padding: 17px 0px;
+    width: 140px;
+    border:1px  solid #DEDEDE;
+}
+.Evaluate_movie .rating span{
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #231f20;
+    font-weight: 500;
+}
+.Evaluate_movie .rating input{
+    border: none;
+    outline: none;
+    padding: 0;
+    height: 26px;
+    width: 140px;
+}
+.Evaluate_movie .input-feedback{
+  background: #F5F5F5;
+  border:1px solid #DEDEDE;
+}
+.Evaluate_movie .input-feedback input{
+    border: none;
+    outline: none;
+    background: none;
+    height: 100%;
+    font-size: 16px;
+    width: 100%;
+}
+.Evaluate_movie button{
+    display: block;
+    width: 118px;
+    height: 101px;
+    background: #231f20;
+    font-size: 18px;
+    font-weight: bold;
+    color: #cdc197;
+    text-align: center;
+    line-height: 101px;
+    border: 0;
+    padding: 0;
+}
+.horizone{
+  width: 980px;
+  height: 1px;
+  background:#000;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
  /* end movie details */
  /* about us */
