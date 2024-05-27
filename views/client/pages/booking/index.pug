@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug
+include ../../mixin/alert.pug
 block main
+    +alert-error(5000)
     .seat-booking(style='margin-top:30px')
         .seat_heading
             h3
