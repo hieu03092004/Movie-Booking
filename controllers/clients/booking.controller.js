@@ -98,92 +98,110 @@ module.exports.bookingPayment = (req, res) => {
         return;
     }
     var seat_ids=req.body.seats;
-    db.request().query(`SELECT * FROM users WHERE tokenUser='${tokenUser}'`, (error, results) => {
+    db.request().query(`SELECT status FROM seats WHERE theater_id ='${req.body.theater_id} 'AND seat_id='${seat_ids}' `,(error, results)=>{
         if (error) {
-            console.error("Error querying database:", error);
+            console.error("Error querying status from database :", error);
             res.status(500).json({ message: "Server error" });
             return;
         }
-        const user = results.recordsets[0][0];
-        db.request().query(`SELECT * FROM movies WHERE movie_id='${req.body.movie_id}'`, (error, results) => {
+        let status=results.recordsets[0][0].status;
+        if(status==0){
+            req.flash("error", "Ghế đã được đặt");
+            res.redirect("back");
+            return;
+        }
+        db.request().query(`SELECT * FROM users WHERE tokenUser='${tokenUser}'`, (error, results) => {
             if (error) {
                 console.error("Error querying database:", error);
                 res.status(500).json({ message: "Server error" });
                 return;
             }
-            const movie = results.recordsets[0][0].movie_title;
-            const sqlQuery = 
-                `SELECT 
-                s.show_time,
-                t.theater_name
-                FROM 
-                    showtimes s
-                JOIN 
-                    theaters t ON s.theater_id = t.theater_id
-                WHERE 
-                s.showtime_id = ${req.body.showtime_id}
-                AND s.theater_id=${req.body.theater_id}
-                AND s.movie_id=${req.body.movie_id};`
-            db.request().query(sqlQuery, (error, results) => {
+            const user = results.recordsets[0][0];
+            db.request().query(`SELECT * FROM movies WHERE movie_id='${req.body.movie_id}'`, (error, results) => {
                 if (error) {
                     console.error("Error querying database:", error);
                     res.status(500).json({ message: "Server error" });
                     return;
                 }
-                const theater_name = results.recordsets[0][0].theater_name;
-                function convertTimeToLocal(showTime) {
-                    const time = new Date(showTime);
-                    const hours = time.getUTCHours().toString().padStart(2, '0');
-                    const minutes = time.getUTCMinutes().toString().padStart(2, '0');
-                    return `${hours}:${minutes}`;
-                }
-                const show_time = convertTimeToLocal(results.recordsets[0][0].show_time);
-                ans.show_time=show_time;
-                const seatIDArray = seat_ids.split(',').map(Number);
-                const seatID=seatIDArray[0];
-                ans.seat_id=seatID;
-                const sqlQueryPrice = 
-                `   SELECT sp.seat_price_id, sp.price, s.seat_row, s.seat_column
-                    FROM seat_prices sp
-                    JOIN seats s ON sp.seat_id = s.seat_id
-                    WHERE sp.seat_id = ${seatID} AND sp.showtime_id = ${req.body.showtime_id}`;
-                db.request().query(sqlQueryPrice, (error, results) => {
+                const movie = results.recordsets[0][0].movie_title;
+                const sqlQuery = 
+                    `SELECT 
+                    s.show_time,
+                    t.theater_name
+                    FROM 
+                        showtimes s
+                    JOIN 
+                        theaters t ON s.theater_id = t.theater_id
+                    WHERE 
+                    s.showtime_id = ${req.body.showtime_id}
+                    AND s.theater_id=${req.body.theater_id}
+                    AND s.movie_id=${req.body.movie_id};`
+                db.request().query(sqlQuery, (error, results) => {
                     if (error) {
                         console.error("Error querying database:", error);
                         res.status(500).json({ message: "Server error" });
                         return;
                     }
-                    const price = results.recordsets[0][0].price;
-                    ans.price=parseInt(price);
-                    ans.seat_price_id=parseInt(results.recordsets[0][0].seat_price_id);
-                    const seat_name=results.recordsets[0][0].seat_row + results.recordsets[0][0].seat_column.toString();
-                    const currentDate = new Date();
-
-                    // Lấy ngày, tháng và năm từ đối tượng Date
-                    const day = currentDate.getDate(); // Ngày trong tháng (1-31)
-                    const month = currentDate.getMonth() + 1; // Tháng (0-11). Lưu ý: Tháng bắt đầu từ 0 nên cần cộng thêm 1
-                    const year = currentDate.getFullYear(); // Năm (4 chữ số)
-
-                    // Định dạng lại ngày, tháng và năm theo định dạng mong muốn
-                    const formattedDate = `${day}/${month}/${year}`;
-                    ans.theater_id=req.body.theater_id;
-                    res.render("client/pages/booking/payment.pug", {
-                        pageTitle: "Trang booking",
-                        user: user,
-                        movie: movie,
-                        show_time: show_time,
-                        theater_name: theater_name,
-                        price: price,
-                        seat_name:seat_name,
-                        dayPayment:formattedDate,
-                        ans:ans
+                    const theater_name = results.recordsets[0][0].theater_name;
+                    function convertTimeToLocal(showTime) {
+                        const time = new Date(showTime);
+                        const hours = time.getUTCHours().toString().padStart(2, '0');
+                        const minutes = time.getUTCMinutes().toString().padStart(2, '0');
+                        return `${hours}:${minutes}`;
+                    }
+                    const show_time = convertTimeToLocal(results.recordsets[0][0].show_time);
+                    ans.show_time=show_time;
+                    const seatIDArray = seat_ids.split(',').map(Number);
+                    const seatID=seatIDArray[0];
+                    ans.seat_id=seatID;
+                    const sqlQueryPrice = 
+                    `   SELECT sp.seat_price_id, sp.price, s.seat_row, s.seat_column
+                        FROM seat_prices sp
+                        JOIN seats s ON sp.seat_id = s.seat_id
+                        WHERE sp.seat_id = ${seatID} AND sp.showtime_id = ${req.body.showtime_id}`;
+                    db.request().query(sqlQueryPrice, (error, results) => {
+                        if (error) {
+                            console.error("Error querying database:", error);
+                            res.status(500).json({ message: "Server error" });
+                            return;
+                        }
+                        const price = results.recordsets[0][0].price;
+                        ans.price=parseInt(price);
+                        ans.seat_price_id=parseInt(results.recordsets[0][0].seat_price_id);
+                        const seat_name=results.recordsets[0][0].seat_row + results.recordsets[0][0].seat_column.toString();
+                        const currentDate = new Date();
+    
+                        // Lấy ngày, tháng và năm từ đối tượng Date
+                        const day = currentDate.getDate(); // Ngày trong tháng (1-31)
+                        const month = currentDate.getMonth() + 1; // Tháng (0-11). Lưu ý: Tháng bắt đầu từ 0 nên cần cộng thêm 1
+                        const year = currentDate.getFullYear(); // Năm (4 chữ số)
+    
+                        // Định dạng lại ngày, tháng và năm theo định dạng mong muốn
+                        const formattedDate = `${day}/${month}/${year}`;
+                        ans.theater_id=req.body.theater_id;
+                        res.render("client/pages/booking/payment.pug", {
+                            pageTitle: "Trang booking",
+                            user: user,
+                            movie: movie,
+                            show_time: show_time,
+                            theater_name: theater_name,
+                            price: price,
+                            seat_name:seat_name,
+                            dayPayment:formattedDate,
+                            ans:ans
+                        });
+                        // Xử lý kết quả ở đây
                     });
-                    // Xử lý kết quả ở đây
+                    
                 });
-                
             });
-        });
-    });   
+        }); 
+        // tuc la ghe chua duoc dat
+       
+        
+        
+    });
+  
 };
 module.exports.bookingTicketShow  = (req, res) => {
     const ans=req.body;
@@ -258,13 +276,21 @@ module.exports.bookingTicketShow  = (req, res) => {
                         res.status(500).json({ message: "Server error" });
                         return;
                     }
-                    res.render("client/pages/booking/ticketShow.pug",{
-                        pageTitle:"Chi tiết vé",
-                        user:user,
-                        cinema:cinema,
-                        ans:ans,
-                        success:"Đặt vé thành công"
+                    db.request().query(`UPDATE seats SET status = 0 WHERE theater_id = '${theater_id}' AND seat_id = '${seat_id}'`, (updateError, updateResults) => {
+                        if (updateError) {
+                            console.error("Error updating seat status:", updateError);
+                            res.status(500).json({ message: "Server error" });
+                            return;
+                        }
+                        res.render("client/pages/booking/ticketShow.pug",{
+                            pageTitle:"Chi tiết vé",
+                            user:user,
+                            cinema:cinema,
+                            ans:ans,
+                            success:"Đặt vé thành công"
+                        });
                     });
+                  
                     // Xử lý kết quả nếu cần
                 });
                
