@@ -1,5 +1,8 @@
 extends ../../layouts/default.pug
+include ../../mixin/alert.pug
 block main
+    if(success)
+        +alert-successTicket(5000,success)
     .container.py-5
         .row.mb-4
             .col-lg-8.mx-auto.text-center
@@ -9,45 +12,49 @@ block main
                 .card
                     .card-header
                         center
-                            img(src='/images/cgvlogo.png' width='30%')
-                            h6  Nha Trang city
+                            img(src='/images/logo.png' width='40%')
+                            if(cinema.cinema_address)
+                                h6(style="margin-top:20px")  #{cinema.cinema_address}
                         table
                             tbody
-                                tr
-                                    td +91 846050 2720
-                                    if(user)   
-                                        td(style='padding: 12px 2px 12px 155px;') Customer ID: #{user.userID}
+                                tr  
+                                    if(cinema.cinema_phone_number)
+                                        td +#{cinema.cinema_phone_number}
+                                    if(user.user_id)  
+                                        td(style='padding: 12px 2px 12px 155px;') Customer ID: #{user.user_id}
                                 tr
                                     td
-                                    if(ticketDetail)
-                                        td(style='padding: 1px 2px 1px 155px;') Date: #{ticketDetail.dayPayment}
+                                    if(ans.show_date)
+                                        td(style='padding: 1px 2px 1px 155px;') Date: #{ans.show_date}
                         hr
                         center
-                            if(ticketDetail)
-                                h3 Phim: #{ticketDetail.movieName}
+                            h3 Phim:Exhuma
                         table
                             tbody
                                 tr
                                     th Tên khách hàng
                                     th(style='padding: 1px 105px;') Địa chỉ
                                 tr
-                                    if(user)
-                                        td #{user.name}
+                                    if(user.last_name && user.first_name)
+                                        td #{user.first_name} #{user.last_name}
+                                    if(user.address)
                                         td(style='padding: 12px 105px;') #{user.address}
                                 tr
                                     th Email
                                     th(style='padding: 1px 105px;') Phone
                                 tr  
-                                    if(user)
+                                    if(user.email)
                                         td #{user.email}
+                                    if(user.phone)
                                         td(style='padding: 12px 105px;') #{user.phone}
                                 tr
                                     th Ngày thanh toán
                                     th(style='padding: 1px 105px;') Thành tiền
                                 tr  
-                                    if(ticketDetail)
-                                        td #{ticketDetail.dayPayment}
-                                        td(style='padding: 12px 105px;') #{ticketDetail.totalPayment}
+                                    if(ans.dayPayment)
+                                        td #{ans.dayPayment}
+                                    if(ans.price)
+                                        td(style='padding: 12px 105px;') #{ans.price}VND
                         hr
                         h4 BOOKING DETAILS:
                         table
@@ -56,16 +63,18 @@ block main
                                     th Theater
                                     th(style='padding: 0px 2px 0px 60px') Ngày chiếu
                                     th(style='padding-left: 30px;') Thời gian
+                                tr  
+                                    if(ans.theater_name)
+                                        td #{ans.theater_name}
+                                    if(ans.show_date)
+                                        td(style='padding: 12px 2px 12px 60px') #{ans.show_date} 
+                                    if(ans.show_time)
+                                        td(style='padding-left: 30px;') #{ans.show_time}
                                 tr
-                                    td No. 1
-                                    if(ticketDetail)
-                                        td(style='padding: 12px 2px 12px 60px') #{ticketDetail.dayBooking}
-                                    if(ticketDetail)
-                                        td(style='padding-left: 30px;')  #{ticketDetail.showTime}
-                                tr
-                                    th Ghế;
+                                    th Ghế
                                     th(style='padding: 0px 2px 0px 60px;') Tổng ghế
                                 tr
-                                    if(ticketDetail)
-                                        td(style='padding-right: 150px;') #{ticketDetail.seats}
-                                        td(style='padding: 12px 2px 12px 60px') #{ticketDetail.totalSeat}
+                                    if(ans.seat_name)
+                                        td(style='padding-right: 150px;') #{ans.seat_name}
+                                    if(ans.totalseat)
+                                        td(style='padding: 12px 2px 12px 60px') #{ans.totalseat}

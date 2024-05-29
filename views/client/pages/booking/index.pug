@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug
+include ../../mixin/alert.pug
 block main
+    +alert-error(5000)
     .seat-booking(style='margin-top:30px')
         .seat_heading
             h3
@@ -10,7 +12,7 @@ block main
                 center
                     input.btn.btn-primary(type='submit' name='submit' value='Check Avaliable Seat')
     .seat
-        form(action=`/booking/payment/${id}` method='post')
+        form(action=`/booking/payment` method='post')
             .container
                 .row
                     .col-lg-7(style='border-right: 1px solid #ddd;')
@@ -27,58 +29,34 @@ block main
                                 table
                                     tbody
                                         tr
-                                            td.line(style='width: 10%;') A
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='A1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='A2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='A3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='A4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='A5')
+                                        td.line-booking(style='width: 10%;') A
+                                        if(data)
+                                            each item in data[0]
+                                                td
+                                                    input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                         tr
-                                            td.line(style='width: 10%;') B
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='B1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='B2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='B3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='B4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='B5')
+                                            td.line-booking(style='width: 10%;') B
+                                            if(data)
+                                                each item in data[2]
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                        
                             .col-lg-5.col-md-5.col-sm-7
                                     #silver.seattable
                                         table
                                             tbody
                                                 tr
-                                                    td.line(style='width: 10%;color:white;') 
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='A6')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='A7')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='A8')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='A9')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='A10')
+                                                    td.line-booking(style='width: 10%;color:white;')
+                                                    if(data)
+                                                        each item in data[1]
+                                                            td
+                                                                input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                                 tr
-                                                    td.line(style='width: 10%;color:white;') 
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='B6')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='B7')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='B8')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='B9')
-                                                    td
-                                                        input.larger(type='checkbox' name='seat[]' value='B10')
+                                                    td.line-booking(style='width: 10%;color:white;') 
+                                                    if(data)
+                                                        each item in data[3]
+                                                            td
+                                                                input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                                 
                         .seat_type
                               if(price) 
@@ -88,166 +66,112 @@ block main
                                 table
                                     tbody
                                         tr
-                                            td.line(style='width: 10%;') C
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='C1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='C2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='C3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='C4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='C5')
+                                            td.line-booking(style='width: 10%;') C
+                                            if(data)
+                                                each item in data[4]
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                         tr
-                                            td.line(style='width: 10%;') D
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='D1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='D2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='D3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='D4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='D5')
+                                            td.line-booking(style='width: 10%;') D
+                                            if(data)
+                                                each item in data[6]
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value=item.seat_id) 
                                         tr
-                                            td.line(style='width: 10%;') E
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='E1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='E2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='E3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='E4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='E5')
+                                            td.line-booking(style='width: 10%;') E
+                                            if(data)
+                                                each item in data[8]
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]'  value=item.seat_id)
                                           
                                         tr
-                                            td.line(style='width: 10%;') F
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='F1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='F2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='F3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='F4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='F5')
+                                            td.line-booking(style='width: 10%;') F
+                                            if(data)
+                                                each item in data[10]
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                             
                                         tr
-                                            td.line(style='width: 10%;') G
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='G1')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='G2')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='G3')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='G4')
-                                            td
-                                                input.larger(type='checkbox' name='seat[]' value='G5')
+                                            td.line-booking(style='width: 10%;') G
+                                            if(data)
+                                                each item in data[12]
+                                                    td
+                                                        input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                             .col-lg-5.col-md-5.col-sm-7
                                 #gold.seattable
                                     table
                                         tbody
                                             tr
-                                                td.line(style='width: 10%;')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='C6')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='C7')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='C8')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='C9')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='C10')
+                                                td.line-booking(style='width: 10%;')
+                                                if(data)
+                                                    each item in data[5]
+                                                        td
+                                                            input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                             tr
-                                                td.line(style='width: 10%;color:white;') 
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='D6')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='D7')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='D8')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='D9')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='D10')
+                                                td.line-booking(style='width: 10%;color:white;') 
+                                                if(data)
+                                                    each item in data[7]
+                                                        td
+                                                            input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                            
                                             tr
-                                                td.line(style='width: 10%;color:white;')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='E6')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='E7')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='E8')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='E9')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='E10')               
+                                                td.line-booking(style='width: 10%;color:white;')
+                                                if(data)
+                                                    each item in data[9]
+                                                        td
+                                                            input.larger(type='checkbox' name='seat[]'  value=item.seat_id)               
                                             tr
-                                                td.line(style='width: 10%;color:white;') 
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='F6')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='F7')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='F8')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='F9')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='F10')
+                                                td.line-booking(style='width: 10%;color:white;') 
+                                                if(data)
+                                                    each item in data[11]
+                                                        td
+                                                            input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                                             tr
-                                                td.line(style='width: 10%;color:white;') 
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='G6')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='G7')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='G8')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='G9')
-                                                td
-                                                    input.larger(type='checkbox' name='seat[]' value='G10')
+                                                td.line-booking(style='width: 10%;color:white;') 
+                                                if(data)
+                                                    each item in data[13]
+                                                        td
+                                                            input.larger(type='checkbox' name='seat[]' value=item.seat_id)
                     .col-lg-5
                         table
                             tbody
                                 tr  
                                     if(movie)
                                         td(width='50%')
-                                            font(color='blue' size='5px' style='font-family: Shruti;') Movie:
-                                        td(bgcolor='79F9E2')
+                                            font(size='5px' ) Movie:
+                                        td
                                             center
-                                                font(size='5' style='font-family: Shruti; ') #{movie.movie_title}
+                                                font(size='5px') #{movie.movie_title}
                                 tr 
                                     if(movie.show_time)
                                         td(width='50%')
-                                            font(color='blue' size='5px' style='font-family: Shruti;') Time:
-                                        td(bgcolor='ECF68C')
+                                            font(size='5px') Time:
+                                        td
                                             center
-                                                font(size='5' style='font-family: Shruti;') #{movie.show_time}
+                                                font(size='5px') #{movie.show_time}
                                         
                                 tr
                                     td(width='50%')
-                                        font(color='blue' size='5px' style='font-family: Shruti;') Seat:
+                                        font(size='5px') Seat:
                                     td
-                                        input#selectedtext(type='text' name='seats' placeholder='selected checkboxs')
+                                        input#selectedtext(type='text' name='seats' placeholder='')
                                 tr
                                     td(width='50%')
-                                        font(color='blue' size='5px' style='font-family: Shruti;') Total Seat:
+                                        font(size='5px') Total Seat:
                                     td
-                                        input#count(type='text' name='totalseat' placeholder='Total Seats')
-                            if(movie.movie_title)
-                                input(type='hidden' name='movie' value=`${movie.movie_title}`)
-                            if(movie.show_time)
-                                input(type='hidden' name='show' value=`${movie.show_time}`)
-                            if(movie.show_date)
-                                input(type='hidden' name='day' value=`${movie.show_date}`)
+                                        input#count(type='text' name='totalseat' placeholder='')
+                            if(results.showtime_id)
+                                input(type='hidden' name='showtime_id' value=results.showtime_id)
+                            if(results.employee_id)
+                                input(type='hidden' name='employee_id' value=results.employee_id)
+                            if(results.movie_id)
+                                input(type='hidden' name='movie_id' value=results.movie_id)
+                            if(results.theater_id)
+                                input(type='hidden' name='theater_id' value=results.theater_id)
+                            if(results.show_date)
+                                input(type='hidden' name='show_date' value=results.show_date)
+                            if(results.movie_name)
+                                input(type='hidden' name='movie_name' value=results.movie_name)
                         .col-lg-12
                             .form-group(style='margin-top: 60%')
                                 input.form-control.btn.btn-primary.py-2(type='submit' value='Payment Now' name='submit')

@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixin/alert.pug
 block main
     .container.py-5
         .row.mb-4
@@ -6,48 +7,57 @@ block main
                 h1.display-6 BOOKING SUMMARY
         .row
         .col-lg-6.mx-auto
-            form(action=`/booking/ticketShow/${movie.movie_id}`, method="POST")
+            form(action="/booking/ticketShow" method="POST")
                 .card
                     .card-header
                         .tab-content(style='font-size:15px')
                             .row
                                 .col-lg-6
                                     div
-                                        if(user)
+                                        if(user.last_name)
                                             span Tên: #{user.last_name}
                                     div 
-                                        if(user)
-                                            span  SĐT.: #{user.phone}
+                                        if(user.phone)
+                                            span  SĐT: #{user.phone}
                                     div 
-                                        if (movie)
-                                            span  Phim:#{movie.movieName}
-                                    div
                                         if(movie)
-                                            span Ghế: #{movie.seats}
+                                        span  Phim: #{movie}
+                                    div
+                                        if(seat_name)
+                                            span Ghế:#{seat_name} 
                                     div 
-                                        if(Date)
-                                            span Ngày thanh toán: #{Date}
+                                        if(dayPayment)
+                                            span Ngày thanh toán: #{dayPayment} 
                                 .col-lg-6
                                     div 
-                                        if(user)
-                                            span Email: #{user.email}
+                                        if(user.email)
+                                            span Email: #{user.email} 
                                     div 
-                                        if(user)
+                                        if(user.address)
                                             span Địa chỉ : #{user.address}
                                     div 
-                                        span Rạp chiếu: 1
-                                    div  
-                                        if (movie)
-                                            span  Thời gian chiếu:#{movie.time}
+                                        if(theater_name)
+                                            span Rạp chiếu: #{theater_name}
                                     div 
-                                        if(Date)
-                                            span Ngày đặt: #{Date}
-                                input#movie(name='movieName' type='hidden' value=movie.movieName)
-                                input#time(name='showTime' type='hidden' value=movie.time)
-                                input#seat(name='seat' type='hidden' value=movie.seats)
-                                input#price(name='price' type='hidden' value=totalPayment)
-                                input#dayBooking(name='dayBooking' type='hidden' value=dayBooking)
-                                input#dayPayment(name='dayPayment' type='hidden' value=Date)
+                                        if(show_time)
+                                            span  Thời gian chiếu: #{show_time}
+                                    div 
+                                        if(dayPayment)
+                                            span Ngày đặt: #{dayPayment}
+                                input(name='showtime_id' type='hidden' value=ans.showtime_id)
+                                input#time(name='show_time' type='hidden' value=ans.show_time)
+                                input#price(name='price' type='hidden' value=ans.price)
+                                input#showdate(name='show_date' type='hidden' value=ans.show_date)
+                                input#dayPayment(name='dayPayment' type='hidden' value=dayPayment)
+                                input#theater_name(name='theater_name' type='hidden' value=theater_name)
+                                input#seat_name(name='seat_name' type='hidden' value=seat_name)
+                                input#totalseats(name='totalseat' type='hidden' value=ans.totalseat)
+                                input#employee_id(name='employee_id' type='hidden' value=ans.employee_id)
+                                input#seat_id(name='seat_id' type='hidden' value=ans.seat_id)
+                                input#seat_price_id(name='seat_price_id' type='hidden' value=ans.seat_price_id)
+                                input#theater_id(name='theater_id' type='hidden' value=ans.theater_id)
+                                input#movie_name(name='movie_name' type='hidden' value=ans.movie_name)
+                                input#movie_id(name='movie_id' type='hidden' value=ans.movie_id)
                             #credit-card.tab-pane.fade.show.active.pt-3
                             .form-group
                                 label(for='username')
@@ -78,9 +88,9 @@ block main
                             .col-lg-6
                                 .seatCharts-container-payment
                                     .front
-                                        if(totalPayment)
+                                        if(price)
                                             font(text-align='left') &nbsp;&nbsp;&nbsp;Tổng tiền: 
-                                            font(text-align='right') #{totalPayment}
+                                            font(text-align='right') #{price} VND 
                             #msg
                             .card-footer
                                 input.form-control.btn.btn-primary.btn-block.shadow-sm(type='submit',value='Xác nhận thanh toán',name='submit')

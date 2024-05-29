@@ -12,9 +12,11 @@ module.exports.infoUser= async (req,res,next)=>{
               next();
           }
           else {
+            const id=results.recordsets[0][0].user_id;
             const userNameQuery = results.recordsets[0][0].last_name;
             // Gán giá trị userNameQuery vào res.locals.userName
             res.locals.userName = userNameQuery;
+            res.locals.id =id;
             next(); // Tiếp tục xử lý middleware tiếp theo
           }
       }

@@ -1,6 +1,6 @@
 const configConnect = {
   user: "sa",
-  password: "Tritt66@gmail",
+  password: "03092004",
   server: "localhost",
   database: "ApolloCinema",
   options: {

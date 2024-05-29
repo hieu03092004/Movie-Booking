@@ -47,12 +47,36 @@ module.exports.index  = (req, res) => {
               // Định dạng lại chuỗi ngày thành dạng YYYY-MM-DD
               item.release_date = `${year}-${month}-${day}`;
           });
-  
-          res.render("client/pages/home/index.pug",{
-              pageTitle:"Trang chủ",
-              movies:movies,
-              pagination:pagination
+          const sqlQueryGenre=`SELECT DISTINCT genre
+            FROM movies`
+          db.request().query(sqlQueryGenre, (error, results) => {
+            if (error) {
+                console.error("Error querying database:", error);
+                res.status(500).json({ message: "Server error" });
+                return;
+            }
+            const genres=results.recordsets[0];
+            const sqlQueryMovieLanguage=`SELECT DISTINCT movie_language
+            FROM movies`
+            db.request().query(sqlQueryMovieLanguage, (error, results) => {
+              if (error) {
+                  console.error("Error querying database:", error);
+                  res.status(500).json({ message: "Server error" });
+                  return;
+              }
+              const movie_languages=results.recordsets[0];
+              // Xử lý kết quả ở đây
+              res.render("client/pages/home/index.pug",{
+                pageTitle:"Trang chủ",
+                movies:movies,
+                pagination:pagination,
+                genres:genres,
+                movie_languages:movie_languages
+              });
           });
+            
+        });
+          
         });
     });   
 };
