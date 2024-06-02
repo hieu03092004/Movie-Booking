@@ -317,10 +317,13 @@ module.exports.login = async (req, res) => {
   });
 };
 module.exports.loginPost = async (req, res) => {
-   
     const userName=req.body.userName;
     const password=req.body.password;
-    const sqlQuery=`SELECT * FROM user_accounts WHERE  username  = '${userName}' and password='${password}'`;
+    const sqlQuery=`SELECT tokenUser,role_id
+                    FROM user_accounts 
+                    JOIN user_roles ON user_accounts.user_role_id = user_roles.user_role_id
+                    JOIN users ON user_roles.user_id = users.user_id
+                    WHERE  username  = '${userName}' and password='${password}'`;
     db.request().query(sqlQuery,(error,results)=>{
         if(error)
             console.log("Error");
@@ -331,95 +334,17 @@ module.exports.loginPost = async (req, res) => {
                 return;
             }
             const user=results.recordsets[0][0];
-        
-            const pool = new sql.ConnectionPool(config);
-            pool.connect().then(() => {
-                const accountId=user.account_id;
-                const sqlQueryUserRole = `
-                    SELECT user_role_id
-                    FROM user_accounts
-                    WHERE account_id = @account_id
-                `;
-          const requestUserRole = new sql.Request(pool);
-          requestUserRole.input("account_id", sql.BigInt, accountId);
-
-          requestUserRole.query(sqlQueryUserRole, (error, results) => {
-            if (error) {
-              console.error("Error querying user_role_id:", error);
-              res.status(500).json({ message: "Server error" });
+            const role_id=user.role_id;
+            const tokenUser=user.tokenUser;
+            if(role_id==1 || role_id==2){
+              res.redirect("/admin");
               return;
             }
-
-            // Kiểm tra nếu không có kết quả
-            if (!results.recordsets[0][0]) {
-              console.log("No user_role_id found for the provided account_id");
-              return;
-            }
-            // Lấy user_role_id từ kết quả truy vấn
-            const userRoleId = results.recordsets[0][0].user_role_id;
-            const sqlQueryUserId = `
-                    SELECT user_id
-                    FROM user_roles
-                    WHERE user_role_id = @user_role_id
-                    `;
-                    const requestUserID = new sql.Request(pool);
-                    requestUserID.input('user_role_id', sql.BigInt,userRoleId);
-                    requestUserID.query(sqlQueryUserId, (error, results) => {
-                        if (error) {
-                            console.error("Error querying user_id:", error);
-                            res.status(500).json({ message: "Server error" });
-                            return;
-                        }
-                        // Kiểm tra nếu không có kết quả
-                        if (!results.recordsets[0][0]) {
-                            console.log("No user_id found for the provided user_role_id");
-                            return;
-                        }
-                        const userID=results.recordsets[0][0].user_id;
-                        const requestTokenUser= new sql.Request(pool);
-                        const sqlQueryTokenUser = `
-                            SELECT 
-                            ur.role_id,
-                            u.tokenUser
-                            FROM users u
-                            JOIN user_roles ur ON u.user_id = ur.user_id
-                            WHERE u.user_id = @user_id;          
-                        `;
-                        requestTokenUser.input('user_id', sql.BigInt,userID);
-                        requestTokenUser.query(sqlQueryTokenUser, (error, results) => {
-                            if (error) {
-                                console.error("Error querying tokenUser:", error);
-                                res.status(500).json({ message: "Server error" });
-                                return;
-                            }
-                            // Kiểm tra nếu không có kết quả
-                            if (!results.recordsets[0][0]) {
-                                console.log("No tokenUserfound for the provided user_id");
-                                return;
-                            }
-                            const tokenUser=results.recordsets[0][0].tokenUser;
-                            res.cookie("tokenUser",tokenUser);
-                            if (
-                                results.recordsets[0][0].role_id == 1 ||
-                                results.recordsets[0][0].role_id == 2
-                              ) {
-                                res.redirect("/admin");
-                                return;
-                              }
-                                req.flash("success","Đăng nhập thành công");
-                                res.redirect("/");
-                        }) 
-                    })
-                    
-                });
-               
-            }).catch(error => {
-                console.error("Error connecting to SQL Server:", error);
-                res.status(500).json({ message: "Server error" });
-            });
+            res.cookie("tokenUser",tokenUser);
+            req.flash("success","Đăng nhập thành công");
+            res.redirect("/");
         }
-    })
-   
+    }) 
 };
 module.exports.forgotPassword = async (req, res) => {
   res.render("client/pages/user/forgot-password.pug", {
@@ -453,7 +378,12 @@ module.exports.resetPassword = async (req, res) => {
 module.exports.resetPasswordPost = async (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
-  const sqlQuery = `SELECT * FROM users WHERE email = '${email}'`;
+  const sqlQuery = `SELECT * 
+                    FROM users
+                    JOIN  user_roles ON users.user_id = user_roles.user_id
+                    JOIN user_accounts ON user_roles.user_role_id = user_accounts.user_role_id
+                    WHERE email = '${email}'
+    `;
   db.request().query(sqlQuery, (error, results) => {
     if (error) console.log("Error");
     else {
@@ -461,58 +391,22 @@ module.exports.resetPasswordPost = async (req, res) => {
         res.redirect("back");
         return;
       }
-
-      const pool = new sql.ConnectionPool(config);
-      pool
-        .connect()
-        .then(() => {
-          const userId = results.recordsets[0][0].user_id;
-          const sqlQueryUserRoleId = `
-                SELECT user_role_id
-                FROM user_roles
-                WHERE user_id = @user_id
-                `;
-          const requestUserRoleID = new sql.Request(pool);
-          requestUserRoleID.input("user_id", sql.BigInt, userId);
-          requestUserRoleID.query(sqlQueryUserRoleId, (error, results) => {
-            if (error) {
-              console.error("Error querying UserRoleId:", error);
-              res.status(500).json({ message: "Server error" });
-              return;
-            }
-            // Kiểm tra nếu không có kết quả
-            if (!results.recordsets[0][0]) {
-              console.log("No UserRoleId for the provided user_id");
-              return;
-            }
-            //truy van ra password
-            const userRoleId = results.recordsets[0][0].user_role_id;
-            const updateQuery = `
-                    UPDATE user_accounts
-                    SET password = '${password}'
-                    WHERE user_role_id = ${userRoleId}
-                    `;
-                    db.request().query(updateQuery, (updateError, updateResults) => {
-                        if (updateError) {
-                            console.log("Error updating password");
-                            res.status(500).json({ message: "Server error" });
-                            return;
-                        }
-                        req.flash("success","Đổi mật khẩu thành công");
-                        res.redirect("/user/login");
-                    });
-                }) 
-                
-            })   
-            .catch(error => {
-                console.error("Error connecting to SQL Server:", error);
-                res.status(500).json({ message: "Server error" });
-            });
-            
+      
+      const user = results.recordsets[0][0];
+      console
+      const account_id = user.account_id;
+      const updateQuery=`UPDATE user_accounts SET password = '${password}' WHERE account_id = ${account_id}`;
+      db.request().query( updateQuery,(error, results) => {
+        if (error) {
+          console.error("Error querying database:", error);
+          res.status(500).json({ message: "Server error" });
+          return;
         }
-    })
- 
- 
+        req.flash("success","Đổi mật khẩu thành công");
+        res.redirect("/user/login");
+      })
+    }
+  })
 };
 module.exports.logout = async (req, res) => {
   res.clearCookie("tokenUser");
